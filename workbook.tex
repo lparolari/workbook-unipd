@@ -103,5 +103,112 @@ citestyle=numeric  % numeric, alphabetic
 
 \part{AA 2019-2020}
 
+% *********************
+\chapter{Software Analysis and Verification}
+
+\section{Exercises}
+
+\subsection{Exercise 1.7}
+
+\begin{exercise}{(1.7)}
+	\label{ex_1_7}
+	Prove that the equations of Equation \ref{eq_ex_1_7} define a total function $\calA$ in $\AExp \to (\ST \to \mathrm{Z})$: First argue that it is sufficient to prove that for each $a \in \AExp$ and each $s \in \ST$ there is exactly one value $v \in Z$ such that $\denotA{a}{s} = v$. Next use structural induction on the arithmetic expressions to prove that this is indeed the case.
+	
+	\begin{equation}
+	\label{eq_ex_1_7}
+	\begin{split}
+	\denotA{n}{s} &= \denotN{n} \\
+	\denotA{x}{s} &= s x \\
+	\denotA{a_1+a_2}{s} &= \denotA{a_1}{s} + \denotA{a_2}{s} \\
+	\end{split}
+	\end{equation}
+	
+	\begin{proof}
+		We have to prove that
+		\[
+		\forall a \in \AExp \itc \forall s \in \ST: \exists v \in \mathrm{Z} \st \denotA{a}{s} = v
+		\]
+		and we can do it by structural induction on $a$.
+		
+		\begin{itemize}
+			\item Base case $a \equiv n$. $\denotA{n}{s} = \denotN{n}$ holds assuming $\denotN{n}$ is a total function.
+			\item Base case $a \equiv x$. $\denotA{x}{s} = s x$ holds by definition of $s$ ($\fund{s}{\Var}{\Natural}$).
+			\item Inductive case $a \equiv a_1 + a_2$. We can apply the definition for this case and we obtain
+			\[
+			\forall a_1, a_2 \in \AExp \itc \forall s \in \ST: \exists v \in \mathrm{Z} \st \denotA{a_1 + a_2}{s} = v
+			\]
+			and this, by structural induction and because $+$ is a total function, holds.
+		\end{itemize}
+	\end{proof}
+	
+\end{exercise}
+
+\subsection{Exercise 1.8}
+
+\begin{exercise}{(1.8)}
+	Assume that $s\ x = 3$ and determine $\denotB{\notop(x = 1)}{s}$.
+	
+	\begin{proof}
+		We have to apply rules from our semantics in order to get the result.
+		
+		TODO
+	\end{proof}
+\end{exercise}
+
+\subsection{Exercise 1.9}
+
+\begin{exercise}{(1.9)}
+	Prove that the denotation semantic function for booleans $\calB$, $\fund{\calB}{\BExp}{(\ST \to \mathrm{T})}$ is total.
+	
+	\begin{proof}
+		Identical to \ref{ex_1_7}
+	\end{proof}
+\end{exercise}
+
+\subsection{Exercise 1.9}
+
+\begin{exercise}{(1.9)}
+	TODO
+\end{exercise}
+
+\subsection{Exercise 1.12}
+
+\begin{exercise}
+	Let $s$ and $s'$ be two states satisfying that $s x = s' x$ for all $x$ in $FV(b)$. Prove that $\denotB{b}{s} = \denotB{b}{s'}$. $\FV$ is defined in Definition \ref{ex_1_12_fv}.
+	
+	\begin{proof}
+		We assume that this sentences holds for $\calA$. (This is proved in \ref{ex_1_12_lemma}). We have to prove that
+		\[
+		\forall b \in \BExp \itc \forall s, s' \in \ST \itc \forall x \in \FV(a) \itc sx = s'x \Rightarrow \denotB{b}{s} = \denotB{b}{s'}
+		\]
+		
+	\end{proof}
+	
+\end{exercise}
+
+\begin{definition}
+	\label{ex_1_12_fv}
+	Define FV \todo{define FV}
+\end{definition}
+
+\begin{lemma}
+	\label{ex_1_12_lemma}
+	\[
+	\forall a \in \AExp \itc \forall s, s' \in \ST \itc \forall x \in \FV(a) \itc sx = s'x \Rightarrow \denotA{a}{s} = \denotA{a}{s'}
+	\]
+	
+	\begin{proof}
+		We have to prove that
+		\[
+		\forall a \in \AExp \itc \forall s, s' \in \ST \st sx = s'x \Rightarrow \denotA{b}{s} = \denotA{b}{s'}
+		\]
+		and we can do it by structural induction on $b$.
+		
+		\begin{itemize}
+			\item Base case $a \equiv n$. It's trivial to note that $\denotA{n}{s} = \denotN{n} = n = n = \denotN{n} = \denotB{n}{s'}$.
+			\item Base case $a \equiv x$. In this case we have
+		\end{itemize}
+	\end{proof}
+\end{lemma}
 
 \end{document}
