@@ -1,0 +1,25 @@
+sudo: required
+language: generic
+services: docker
+
+env:
+  global:
+    - TOPIC="computability"
+    - MAINFILE="workbook"
+    - OUTFILE="${MAINFILE}-unipd"
+
+script:
+  - docker pull dxjoke/tectonic-docker
+  - docker run --mount src=$TRAVIS_BUILD_DIR,target=/usr/src/tex,type=bind dxjoke/tectonic-docker /bin/sh -c "tectonic --keep-intermediates --reruns 0 $MAINFILE.tex; biber $MAINFILE; tectonic $MAINFILE.tex"
+
+after_success:
+- mv "$MAINFILE.pdf" "${OUTFILE}-${TRAVIS_TAG}".pdf
+
+deploy:
+  provider: releases
+  api_key:
+    secure: k9xCI+Jwhmjbt2yVId508qcU2czV8UInE0vMzC7ahguk8g0K41D7jy7prKIaBlqwc+lij4++wPXgoH7qINQh/pMe8apJP6tfJcUzz9Pxfa9pLHW6CadToCAb+KZpbqIRCZO43u871upzz2+7ky2XSk9pF5IpIeCdlUOq6A3ZmV+EIU43d3Us368IE8cEqwmaD7MEpb0+eBjDaFoaBouMegldCkazOdNiFEvlC5FhDO99UjXox8YBQjITPFowy1uvtv7y0s3cCQVAWG8Et4ZzRJL43CS5hk3wPPb3/bTZlLF4CM9aJvHNqOtKsM3WjcFI4kuKAGqYrSrYIl1FT2/L+09XZ4ZXHIOuXPAgpfNc72SAhHAKrPzMMBej3P+zivQduig/hYnCWzePZ/mzR/psIPjzRPofPECgVStRuaFU687gM60agu5xQ+y3wK8D1HQIjOJakHQbOHhAeGceYO+2CaDqBNt9G0oKx77pHG5wf54baZeO0Zvvl3cftTr5rB4pOvzSePY1hKKaiJxTN2zgtopb++cv60c6CWwAYUBuMHURum42Zb/xaNTJWBp1E/eN2Y69lSV7ydontkvfVIj7k9GA8Dt5HqSvzxp5o63dPR7fcVEHEWofMyqDRTGg2sdBYOYWYt5QbxiVA3lsx3spP8UjBTwSoVoE416Jlh3GJ+w=
+  file: "$TRAVIS_BUILD_DIR/${OUTFILE}-${TRAVIS_TAG}.pdf"
+  skip_cleanup: true
+  on:
+    repo: lparolari/workbook-unipd
