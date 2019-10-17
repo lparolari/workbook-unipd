@@ -1,0 +1,107 @@
+% !TeX spellcheck = en_US
+\documentclass[12pt,a4paper,oneside]{book}  
+% oneside or openright
+
+%% ***************************************************************
+%%    PACKAGES
+\usepackage{lmodern}         % font package.
+\usepackage[T1]{fontenc}     % define T1 charset for out files.
+\usepackage[english]{babel}  % italian latex typo conventions.
+\usepackage[utf8]{inputenc}  % italian symbols.
+\usepackage{csquotes}        % needed by babel.
+\usepackage{amsmath}         % math features.
+\usepackage{amsthm}          % math theorems.
+\usepackage{amssymb}         % math symbols.
+\usepackage{amsbsy}			 % math bold.
+\usepackage{listings}        % embed programming language in latex.
+\usepackage{stmaryrd}        % symbols for theoretical computer science.
+\usepackage{hhline}          % better horizontal lines in tabulars and arrays.
+%%\usepackage{vmargin}         % various page dimensions.
+\usepackage{hyperref}        % hypertext support.
+\usepackage{makeidx}         % for creating indexes.
+\usepackage{nicefrac}        % inline fractions.
+\usepackage{marginnote}      % notes in the margin, even where \marginpar fails.
+\usepackage{xr}              % references to other latex documents.
+\usepackage{subfiles}        % multifile support.
+\usepackage{geometry}        % interface for document dimension.
+\usepackage{graphicx}        % enhanced support for graphics.
+\usepackage{fancyhdr}        % extensive control of page headers and footers.
+\usepackage{lipsum}          % generate dummy text.
+\usepackage[
+backend=biber,
+style=numeric,
+citestyle=numeric  % numeric, alphabetic
+]{biblatex}                  % bib management. %bibtex
+\usepackage{minitoc}         % table of contents per chapter.
+%\usepackage{titlesec}        % change titles size.
+\usepackage{algorithm}       % algorithm block.
+\usepackage{algcompatible}
+\usepackage{algpseudocode}   % style for (autoimported) package algorithmicx.
+\usepackage{float}           % float management.
+\usepackage[toc,page]{appendix}  % appendix.
+\usepackage{tcolorbox}
+%\usepackage{minted}
+\usepackage{tikz}            % flow chart.
+%\usepackage{tocvsec2}        % numbering chapter fix.
+\usepackage{enumitem}        % enums.
+%\usepackage{subcaption}      % needed by nested figures.
+%\usepackage{showframe}      % DEBUG: shows page frames.
+\usepackage{xcolor}
+
+%% ***************************************************************
+%%    RESOURCES
+\input{prooftree.tex}
+\input{macros.tex}
+
+%% ***************************************************************
+%%    CONFIGURATIONS
+\usetikzlibrary{calc,trees,positioning,arrows,chains,shapes.geometric,%
+	decorations.pathreplacing,decorations.pathmorphing,shapes,%
+	matrix,shapes.symbols}
+\tikzset{
+	% flow chart
+	>=stealth',
+	punktchain/.style={
+		rectangle,
+		rounded corners,
+		% fill=black!10,
+		draw=black, very thick,
+		text width=10em,
+		minimum height=3em,
+		text centered,
+		on chain},
+	line/.style={draw, thick, <-},
+	element/.style={
+		tape,
+		top color=white,
+		bottom color=blue!50!black!60!,
+		minimum width=8em,
+		draw=blue!40!black!90, very thick,
+		text width=10em,
+		minimum height=3.5em,
+		text centered,
+		on chain},
+	every join/.style={->, thick,shorten >=1pt},
+	decoration={brace},
+	tuborg/.style={decorate},
+	tubnode/.style={midway, right=2pt},
+}
+
+%% ***************************************************************
+%%    OPENING
+\title{Workbook \\ Master Degree in Computer Science}
+\author{Luca Parolari\footnote{\href{mailto:luca.parolari23@gmail.com}{luca.parolari23@gmail.com}}}
+
+
+%% ###############################################################
+%%                            DOCUMENT
+%% ###############################################################
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\part{AA 2019-2020}
+
+
+\end{document}
