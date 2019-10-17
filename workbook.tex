@@ -211,4 +211,134 @@ citestyle=numeric  % numeric, alphabetic
 	\end{proof}
 \end{lemma}
 
+% *********************
+\chapter{Machine Learning}
+
+\section{Decision Trees}
+
+\subsection{Exercise: build a decision tree}
+
+\begin{exercise}
+	Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
+	
+	\begin{proof} (AND)
+		Define the examples set $S$ as
+		\begin{center}
+			\begin{tabular}{ c c c c }
+				\textbf{Examples} & \textbf{$a_1$} & \textbf{$a_2$} & \textbf{Output} \\
+				$E_1$ & 0 & 0 & $\ffv$ \\ 
+				$E_2$ & 0 & 1 & $\ffv$ \\  
+				$E_3$ & 1 & 0 & $\ffv$ \\
+				$E_4$ & 1 & 1 & $\ttv$
+			\end{tabular}
+		\end{center}
+		where $a_1, a_2$ are attributes in $A$, $\ttv, \ffv$ are the two possible classes and $0, 1$ are the two possible values.
+		
+		Now we can apply the algorithm \emph{ID3}.
+		\begin{itemize}
+			\item \textbf{Step 1} We create the root node $T$. The two tests fail: examples in $S$ are not in the same class and $A$ is not empty. So we have to chose $a \in A$ as the best attribute in $A$.
+			
+			In order to chose the best attribute in $A$ we must calculate the \emph{entropy} (i.e., a measure of the disorder) and the \emph{information gain} (i.e., the expected reduction of entropy for a given set).
+			
+			Entropy is
+			\[
+			E(S) = - \sum_{c=1}^{m} p_c \log(p_c)
+			\]
+			where $p_c = \frac{|S_c|}{|S|}$, but for a binary classification it becomes
+			\[
+			E(S) = - p_- \log(p_-) - p_+ \log(p_+)
+			\]
+			
+			And the gain
+			\[
+			G(S,a) = E(S) - \sum_{v\in V(a)} \frac{|S_{a=v}|}{|S|} E(S_{a=v})
+			\]
+			
+			So, instancing the two formulas on our data we obtain
+			\[
+			p_- = \frac{|S_-|}{|S|} = \frac{3}{4} \qquad p_+ = \frac{|S_+|}{|S|} = \frac{1}{4}
+			\]
+			and
+			\[
+			E(S) = - \frac{3}{4} \log\big(\frac{3}{4}\big) - \frac{1}{4} \log\big(\frac{1}{4}\big) = 0.244
+			\]
+			From this, we can calculate the gain as
+			\begin{equation*}
+			\begin{split}
+			G(S, a_1) &= 0.244 - \Big( \big(\frac{|S_{a_1=0}|}{|S|} E(S_{a_1=0})\big) + \big(\frac{|S_{a_1=1}|}{|S|} E(S_{a_1=1})\big) \Big) \\
+			&= 0.244 - \Big( \big(\frac{2}{4} E(S_{a_1=0})\big) + \big(\frac{2}{4} E(S_{a_1=1})\big) \Big) \\
+			&= 0.244 - (0 + 0.25) \\
+			&= -0.006  \law{\color{red}{WTF??}}
+			\end{split}
+			\end{equation*}
+			\fixme{Non può essere negativo!}
+			
+			From the above we can chose the attribute $a_1$, set it as $T$ and make two recursive call:
+			\begin{itemize}
+				\item $ID3(S_{a_1=0}, A \setdiff \{a_1\})$
+				\item $ID3(S_{a_1=1}, A \setdiff \{a_1\})$
+			\end{itemize}
+			
+			\item \textbf{Step 2} First recursive call from Step 1. We have $S = \{ \langle 0,0,\ffv \rangle, \langle 0,1,\ffv \rangle \}$, $A = \{a_2\}$. We create a new root node $T$ and we can assign $\ffv$ to it because the elements in $S$ have the same class.
+			
+			\item \textbf{Step 3} Second recursive call from Step 1. We have $S = \{ \langle 1,0,\ffv \rangle, \langle 1,1,\ttv \rangle \}$, $A=\{a_2\}$. We create a new root node $T$ and assign $a_2$ to it because $a_2$ is the last attribute in $A$ (i.e., the optimal one), then we can make the recursive call:
+			\begin{itemize}
+				\item $ID3(S_{a_2=0}, A \setdiff \{a_2\})$
+				\item $ID3(S_{a_2=1}, A \setdiff \{a_2\})$
+			\end{itemize}
+			
+			\item \textbf{Step 4} First recursive call from Step 3. We have $S=\{\langle 1,0,\ffv \rangle \}$ and for this we can assign $\ffv$ to $T$ since it is the last element in $S$, making a leaf.
+			
+			\item \textbf{Step 5} Second recursive call from Step 3. We have $S=\{ \langle 1,1,\ttv \rangle \}$ and for this we can assign $\ttv$ to $T$ since it is the last element in $S$, making a leaf.
+		\end{itemize}
+		
+		\begin {tikzpicture}[-latex ,auto ,node distance =2 cm and 2cm, on grid, semithick, state/.style ={ circle ,top color =white , bottom color = white, draw, black , text=black, minimum width =1 cm}]
+		\node[state] (A) {$a_1$};
+		\node[state] (B) [below left =of A] {$\ffv$};
+		\node[state] (C) [below right =of A] {$a_2$};
+		\node[state] (D) [below left =of C] {$\ffv$};
+		\node[state] (E) [below right =of C] {$\ttv$};
+		\path (A) edge node {$0$} (B);
+		\path (A) edge node {$0$} (C);
+		\path (C) edge node {$0$} (D);
+		\path (C) edge node {$1$} (E);
+	\end{tikzpicture}
+	
+\end{proof}
+\end{exercise}
+
+\begin{exercise}
+Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR. This time only three examples are given.
+
+\begin{proof} (AND)
+	Define the examples set $S$ as
+	\begin{center}
+		\begin{tabular}{ c c c c }
+			\textbf{Examples} & \textbf{$a_1$} & \textbf{$a_2$} & \textbf{Output} \\
+			$E_1$ & 0 & 0 & $\ffv$ \\
+			$E_2$ & 0 & 1 & $\ffv$ \\
+			$E_4$ & 1 & 1 & $\ttv$ \\
+		\end{tabular}
+	\end{center}
+	where $a_1, a_2$ are attributes in $A$, $\ttv, \ffv$ are the two possible classes and $0, 1$ are the two possible values.
+	
+	Now we can apply the algorithm \emph{ID3}.
+	\begin{itemize}
+		\item \textbf{Step 1} We create the root node $T$. The two tests fail: examples in $S$ are not in the same class and $A$ is not empty. So we have to chose $a \in A$ as the best attribute in $A$.
+		
+		For simplicity this part is skipped and $a_1$ is chosen as the optimal attribute.
+		
+		From the above we can chose the attribute $a_1$, set it as $T$ and make two recursive call:
+		\begin{itemize}
+			\item $ID3(S_{a_1=0}, A \setdiff \{a_1\})$
+			\item $ID3(S_{a_1=1}, A \setdiff \{a_1\})$
+		\end{itemize}
+		
+		\item \textbf{Step 2} First recursive call from Step 1. We have $S = \{ \langle 0,0,\ffv \rangle, \langle 0,1,\ffv \rangle \}$, $A = \{a_2\}$. We create a new root node $T$ and we can assign $\ffv$ to it because the elements is $S$ are have the same class.
+		
+		\item \textbf{Step 3} Second recursive call from Step 1. We have $S = \{ \langle 1,1,\ttv \rangle \}$, $A=\{a_2\}$. We create a new root node $T$ and assign $\ttv$ to it because elements in $S$ have the same class.
+	\end{itemize}
+\end{proof}
+\end{exercise}
+
 \end{document}
