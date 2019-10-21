@@ -341,4 +341,176 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
 \end{proof}
 \end{exercise}
 
+% *********************
+\chapter{Advanced Topics on Programming Languages}
+
+\section{Esercizio 1.1}
+
+\begin{exercise}
+    Solve the follogin exercises on high-order functions. \todo{Translate}
+    \begin{itemize}
+        \item write a term that represent an high-order function (i.e., takes another function as input). Scrivere inoltre un
+        programma che usa una funzione higher.
+        \item Scrivere una funzione che restituisce una funzione.
+    \end{itemize}
+
+\begin{proof}
+    Parte 1:
+    \begin{verbatim}
+    -- high order
+    fn x.x
+    
+    -- apply func arg
+    --   Apply the function `func` to argument `arg`.
+    fn x. (fn y. (x y) 1) fn z. z+1
+    \end{verbatim}
+    
+    Parte 2:
+    \begin{verbatim}
+    fn x.x fn y.y+1
+    \end{verbatim}
+    
+\end{proof}
+
+\end{exercise}
+
+\section{Esercizio 1.4}
+
+\begin{exercise}
+    Definire formalmente la nozione di sottotermini di un termine M del nostro linguaggio.
+    \begin{proof}
+        ???
+    \end{proof}
+\end{exercise}
+
+\section{Esercizio Extra 1}
+
+\begin{exercise}
+    Definire la semantica dell'applicazione con \emph{call-by-name}.
+    \begin{proof}
+        \begin{equation}
+        \rulename{BETA.N}
+        \prooftree
+        \justifies
+        fn \ x .\ M\ N \to M \{ x := N \}
+        \endprooftree
+        \end{equation}
+        
+        \begin{equation}
+        \rulename{APP.N}
+        \prooftree
+        M \to M'
+        \justifies
+        M \ N \to M' \ N
+        \endprooftree
+        \end{equation}
+    \end{proof}
+\end{exercise}
+
+\section{Esercizio Extra 2}
+
+\begin{exercise}
+    Dimostrare formalmente che la valutazione (esecuzione) di un programma è deterministica. Se $M \to M'$ e $M \to M''$ allora $M' = M''$.
+    
+    \begin{proof}
+        Si enuncia prima, in modo formale, la proposizione.
+        \[
+        \forall M, M', M'' \in Term: M \to M' \land M \to M'' \Rightarrow M' = M''
+        \]
+        Ciò viene mostrato per induzione sulla struttura di M.
+        
+        \begin{itemize}
+            \item Caso base. Prendiamo in esame il caso $M = true$.
+            
+            Applicando l'enunciato abbiamo 
+            \[
+            true \not\to M' \land true \not\to M'' \Rightarrow M' = M''
+            \]
+            ma questo è banalmente vero, visto che $false \Rightarrow
+            true$ è $true$.
+            
+            Gli altri casi sono analoghi.
+            
+            \item Passo induttivo. Prendiamo in esame $M = N_1 + N_2$.
+            
+            Applicando l'enunciato ottenuamo
+            \[
+            N_1 + N_2 \to N' \land N_1 + N_2 \to N'' \Rightarrow N' = N''
+            \]
+            
+            Per ipotesi induttiva sappiamo che vale
+            \begin{equation*}
+            \begin{split}
+            N_1 \to N_1' \land N_1 \to N_1'' & \Rightarrow N_1' = N_1'' \\
+            N_2 \to N_2' \land N_2 \to N_2'' & \Rightarrow N_2' = N_2''
+            \end{split}
+            \end{equation*}
+            e quindi
+            \[
+            N' = N'' \Leftrightarrow N_1' + N_2' = N_1'' + N_2''
+            \]
+            
+            A questo punto, sapendo che anche la somma è un'operazione
+            deterministica concludo che $M' = M''$.
+        \end{itemize}
+    \end{proof}
+\end{exercise}
+
+\section{Exercise 3.2}
+
+\todo{Add this exercise}
+
+\section{Exercise 3.3}
+
+\todo{Add this exercise}
+
+\section{Exercise 3.14}
+
+\begin{exercise}
+    Prove that if $\Gamma \vdash M: \tT$ is derivable then $\FV(M) \subseteq \dom(\Gamma)$.
+
+    \begin{proof}
+        By structural induction on $M$.
+        
+        \begin{itemize}
+            \item Case $M = \true$. $M$ is derivable using $\mathrm{T-TRUE}$ rule. Then we know that $\FV(M) = \FV(true) = \emptyset$ by definition and $\emptyset \subseteq \dom(\Gamma)$, thus $\FV(M) \subseteq \dom(\Gamma)$.
+            \item Case $M = \false$ and $M=n$ are identical to case $M = \true$.
+            \item Case $M = x$. $M$ is derivable using $\mathrm{T-VAR}$ and the rule is applicable only if $x \in \Gamma$. Then we know $\FV(M) = \FV(x) = \{x\}$. Thus, $\FV(M) = \FV(x) \subseteq \dom(\Gamma)$.
+            \item Case $M = M_1 + M_2$. $M$ is derivable by $\mathrm{T-SUM}$. 
+            \[
+                \rulename{T-SUM}
+                \prooftree
+                  \Gamma \vdash M_1:\mathrm{Nat} \qquad \Gamma \vdash M_2:\mathrm{Nat}
+                  \justifies
+                  \Gamma \vdash M_1+M_2 :\mathrm{Nat}
+                \endprooftree
+            \]
+            Then we know that 
+            \[
+                \FV(M) = \FV(M_1 + M_2) = \FV(M_1) \cup \FV(M_2)
+            \]
+            and by the inductive hypothesis 
+            \[
+                \FV(M_1) \in \Gamma \land \FV(M_2) \in \Gamma
+            \]
+            so
+            \[
+                \FV(M_1) \cup \FV(M_2) \in \Gamma
+            \]
+            \item Case $M = \condif{M_1}{M_2}{M_3}$ and $M = M_1 M_2$. Can be proved as done in $M = M_1 + M_2$ case.
+            \item Case $M = fx:\tT_1.M:\tT_1 \to \tT_2$. $M$ is derivable using $\mathrm{T-FUN}$
+            \[
+                \rulename{T-FUNC}
+                \prooftree
+                    \Gamma,x:\tT_1 \vdash M:\tT_2
+                \justifies
+                    \Gamma \vdash f x:\tT_1 . M:\tT_1 \to \tT_2
+                \endprooftree
+            \]
+            We know that $\FV(M) = \FV(fx:\tT_1.M:\tT_1 \to \tT_2) = \FV(M) \setminus \{x\}$. Let $\Gamma' = \Gamma, x$. By the inductive hypothesis we know that $\FV(M) \subseteq \Gamma = \Gamma' \setminus \{x\}$, thus $\FV(M) \subseteq \dom(\Gamma')$.
+            
+        \end{itemize}
+    \end{proof}
+\end{exercise}
+
 \end{document}
