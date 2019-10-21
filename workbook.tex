@@ -152,7 +152,7 @@ citestyle=numeric  % numeric, alphabetic
     \begin{proof}
         We have to apply rules from our semantics in order to get the result.
         
-        TODO
+         \todo{Finish this exercise}
     \end{proof}
 \end{exercise}
 
@@ -162,14 +162,14 @@ citestyle=numeric  % numeric, alphabetic
     Prove that the denotation semantic function for booleans $\calB$, $\fund{\calB}{\BExp}{(\ST \to \mathrm{T})}$ is total.
     
     \begin{proof}
-        Identical to \ref{ex_1_7}
+        Identical to Exercise \ref{ex_1_7}
     \end{proof}
 \end{exercise}
 
-\subsection{Exercise 1.9}
+\subsection{Exercise 1.10}
 
-\begin{exercise}{(1.9)}
-    TODO
+\begin{exercise}{(1.10)}
+     \todo{Add this exercise}
 \end{exercise}
 
 \subsection{Exercise 1.12}
@@ -178,13 +178,12 @@ citestyle=numeric  % numeric, alphabetic
     Let $s$ and $s'$ be two states satisfying that $s x = s' x$ for all $x$ in $FV(b)$. Prove that $\denotB{b}{s} = \denotB{b}{s'}$. $\FV$ is defined in Definition \ref{ex_1_12_fv}.
     
     \begin{proof}
-        We assume that this sentences holds for $\calA$. (This is proved in \ref{ex_1_12_lemma}). We have to prove that
+        We assume that this sentences holds for $\calA$. (This is proved in Lemma \ref{ex_1_12_lemma}). We have to prove that
         \[
         \forall b \in \BExp \itc \forall s, s' \in \ST \itc \forall x \in \FV(a) \itc sx = s'x \Rightarrow \denotB{b}{s} = \denotB{b}{s'}
         \]
         
     \end{proof}
-    
 \end{exercise}
 
 \begin{definition}
@@ -345,7 +344,9 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
 % *********************
 \chapter{Advanced Topics on Programming Languages}
 
-\section{Esercizio 1.1}
+\section{Mini functional language}
+
+\subsection{Esercizio 1.1}
 
 \begin{exercise}
     Solve the follogin exercises on high-order functions. \todo{Translate}
@@ -375,16 +376,16 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
 
 \end{exercise}
 
-\section{Esercizio 1.4}
+\subsection{Esercizio 1.4}
 
 \begin{exercise}
     Definire formalmente la nozione di sottotermini di un termine M del nostro linguaggio.
     \begin{proof}
-        ???
+        ??? \fixme{Finish this exercise}
     \end{proof}
 \end{exercise}
 
-\section{Esercizio Extra 1}
+\subsection{Esercizio Extra 1}
 
 \begin{exercise}
     Definire la semantica dell'applicazione con \emph{call-by-name}.
@@ -405,10 +406,11 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
         M \ N \to M' \ N
         \endprooftree
         \end{equation}
+         \fixme{Needs review}
     \end{proof}
 \end{exercise}
 
-\section{Esercizio Extra 2}
+\subsection{Esercizio Extra 2}
 
 \begin{exercise}
     Dimostrare formalmente che la valutazione (esecuzione) di un programma è deterministica. Se $M \to M'$ e $M \to M''$ allora $M' = M''$.
@@ -457,15 +459,15 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
     \end{proof}
 \end{exercise}
 
-\section{Exercise 3.2}
+\subsection{Exercise 3.2}
 
 \todo{Add this exercise}
 
-\section{Exercise 3.3}
+\subsection{Exercise 3.3}
 
 \todo{Add this exercise}
 
-\section{Exercise 3.14}
+\subsection{Exercise 3.14}
 
 \begin{exercise}
     Prove that if $\Gamma \vdash M: \tT$ is derivable then $\FV(M) \subseteq \dom(\Gamma)$.
