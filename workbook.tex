@@ -13,6 +13,7 @@
 \usepackage{amsthm}          % math theorems.
 \usepackage{amssymb}         % math symbols.
 \usepackage{amsbsy}          % math bold.
+\usepackage{mathtools}       % math tools.
 \usepackage{listings}        % embed programming language in latex.
 \usepackage{stmaryrd}        % symbols for theoretical computer science.
 \usepackage{hhline}          % better horizontal lines in tabulars and arrays.
@@ -518,6 +519,50 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
 \chapter{Computability}
 
 \section{URM calcolabilità}
+
+\subsection{Exercise 1}
+
+\begin{exercise}
+	Find a $URM$-program that calculates $x \div 2$.
+	
+	\begin{proof}
+		Memory initialization: $r_1 = x, r_2 = 2, r_3 = 0, r_4 = 0$.
+		
+\begin{verbatim}
+LOOP: J(1,4,RIS)
+      S(3)
+      S(4)
+      S(4)
+      JMP(1,1,LOOP)
+ RIS: MOV(3,1)
+ END:
+\end{verbatim}
+	\end{proof}
+\end{exercise}
+
+\subsection{Exercise 2}
+
+\begin{exercise}
+	Find a $URM$-program that calculates $\lceil x \div 2 \rceil$.
+	
+	\begin{proof}
+		Memory initialization: $r_1 = x, r_2 = 2, r_3 = 0, r_4 = 0, r_5 = 0$.
+		
+\begin{verbatim}
+LOOP1: J(1,5,RIS)
+       S(4)
+       Z(3)
+LOOP2: J(2,3;LOOP1)
+       S(5)
+       S(3)
+       JMP(1,1,LOOP2)
+RIS:
+END:
+\end{verbatim}
+	\end{proof}
+\end{exercise}
+
+\subsection{Exercise 3}
 
 \begin{exercise}
     Let $URM^-$ be a $URM$-machine without the jump instruction.
