@@ -13,6 +13,7 @@ pdf: pdf1  # default
 pdf1: pdflatex bib pdflatex
 pdf2: pdfdocker
 
+prettify: backup tabs2spaces rmTrailingSpaces
 
 # ***********************************************************
 # ****** BUILD RECIPES
@@ -36,6 +37,22 @@ read:
 edit:
 	emacs ${MAINFILE}.tex
 
+# backup
+backup:
+	cp ${MAINFILE}.tex ${MAINFILE}.tex.bak
+restore:
+	cp ${MAINFILE}.tex.bak ${MAINFILE}.tex
+
+# convert a tab to 4 spaces 
+tabs2spaces:
+	expand -t 4 ${MAINFILE}.tex > ${MAINFILE}.tex.tmp
+	mv ${MAINFILE}.tex.tmp ${MAINFILE}.tex
+
+# remove trailing spaces
+rmTrailingSpaces:
+# do nothing for now
+# FIXME: the $ si interpreted in bash end cause the sed command to fail!
+# sed --in-place "s/[[:space:]]\+$//" ${MAINFILE}.tex
 
 # ***********************************************************
 # ****** CLEAN RECIPES
