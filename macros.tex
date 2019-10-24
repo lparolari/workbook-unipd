@@ -29,6 +29,10 @@
 \newcommand*{\compfun}[2]{\mathrm{#1}\mathop{\circ}\mathrm{#2}}
 % e per if then else
 \newcommand*{\condif}[3]{\kw{if} #1 \kw{then} #2 \kw{else} #3}
+% functional language fn : fn x . M
+\newcommand*{\fnfun}[2]{\kw{fn} #1 \kw{.} #2}
+% functional language application: M N
+\newcommand*{\fnapp}[2]{#1\ #2}
 \newcommand*{\while}[2]{\kw{while} #1 \kw{do} #2}
 % macro per repeat C until B
 \newcommand*{\repeatuntil}[2]{\kw{repeat} #1 \kw{until} #2}
@@ -74,6 +78,7 @@
 \newcommand*{\Exp}{\mathrm{Exp}}
 \newcommand*{\ST}{\mathrm{State}}
 \newcommand*{\Natural}{\mathrm{N}}
+\newcommand*{\Nat}{\mathrm{Nat}}
 
 %% Sets of configurations
 \newcommand*{\NTe}{\Gamma_\mathrm{e}}
@@ -482,6 +487,7 @@
 \newtheorem{proposizione}{Proposizione}
 \newtheorem{esercizio}{Esercizio}
 
+\newtheorem{theorem}{Theorem}
 \newtheorem{exercise}{Exercise}
 \newtheorem{definition}{Definition}
 \newtheorem{lemma}{Lemma}
