@@ -1,5 +1,5 @@
 % !TeX spellcheck = en_US
-\documentclass[12pt,a4paper,oneside]{book}  
+\documentclass[12pt,a4paper,oneside]{book}
 % oneside or openright
 
 %% ***************************************************************
@@ -114,7 +114,7 @@ citestyle=numeric  % numeric, alphabetic
 \begin{exercise}{(1.7)}
     \label{ex_1_7}
     Prove that the equations of Equation \ref{eq_ex_1_7} define a total function $\calA$ in $\AExp \to (\ST \to \mathrm{Z})$: First argue that it is sufficient to prove that for each $a \in \AExp$ and each $s \in \ST$ there is exactly one value $v \in Z$ such that $\denotA{a}{s} = v$. Next use structural induction on the arithmetic expressions to prove that this is indeed the case.
-    
+
     \begin{equation}
     \label{eq_ex_1_7}
     \begin{split}
@@ -123,14 +123,14 @@ citestyle=numeric  % numeric, alphabetic
     \denotA{a_1+a_2}{s} &= \denotA{a_1}{s} + \denotA{a_2}{s} \\
     \end{split}
     \end{equation}
-    
+
     \begin{proof}
         We have to prove that
         \[
         \forall a \in \AExp \itc \forall s \in \ST: \exists v \in \mathrm{Z} \st \denotA{a}{s} = v
         \]
         and we can do it by structural induction on $a$.
-        
+
         \begin{itemize}
             \item Base case $a \equiv n$. $\denotA{n}{s} = \denotN{n}$ holds assuming $\denotN{n}$ is a total function.
             \item Base case $a \equiv x$. $\denotA{x}{s} = s x$ holds by definition of $s$ ($\fund{s}{\Var}{\Natural}$).
@@ -141,17 +141,17 @@ citestyle=numeric  % numeric, alphabetic
             and this, by structural induction and because $+$ is a total function, holds.
         \end{itemize}
     \end{proof}
-    
+
 \end{exercise}
 
 \subsection{Exercise 1.8}
 
 \begin{exercise}{(1.8)}
     Assume that $s\ x = 3$ and determine $\denotB{\notop(x = 1)}{s}$.
-    
+
     \begin{proof}
         We have to apply rules from our semantics in order to get the result.
-        
+
          \todo{Finish this exercise}
     \end{proof}
 \end{exercise}
@@ -160,7 +160,7 @@ citestyle=numeric  % numeric, alphabetic
 
 \begin{exercise}{(1.9)}
     Prove that the denotation semantic function for booleans $\calB$, $\fund{\calB}{\BExp}{(\ST \to \mathrm{T})}$ is total.
-    
+
     \begin{proof}
         Identical to Exercise \ref{ex_1_7}
     \end{proof}
@@ -176,13 +176,13 @@ citestyle=numeric  % numeric, alphabetic
 
 \begin{exercise}
     Let $s$ and $s'$ be two states satisfying that $s x = s' x$ for all $x$ in $FV(b)$. Prove that $\denotB{b}{s} = \denotB{b}{s'}$. $\FV$ is defined in Definition \ref{ex_1_12_fv}.
-    
+
     \begin{proof}
         We assume that this sentences holds for $\calA$. (This is proved in Lemma \ref{ex_1_12_lemma}). We have to prove that
         \[
         \forall b \in \BExp \itc \forall s, s' \in \ST \itc \forall x \in \FV(a) \itc sx = s'x \Rightarrow \denotB{b}{s} = \denotB{b}{s'}
         \]
-        
+
     \end{proof}
 \end{exercise}
 
@@ -196,14 +196,14 @@ citestyle=numeric  % numeric, alphabetic
     \[
     \forall a \in \AExp \itc \forall s, s' \in \ST \itc \forall x \in \FV(a) \itc sx = s'x \Rightarrow \denotA{a}{s} = \denotA{a}{s'}
     \]
-    
+
     \begin{proof}
         We have to prove that
         \[
         \forall a \in \AExp \itc \forall s, s' \in \ST \st sx = s'x \Rightarrow \denotA{b}{s} = \denotA{b}{s'}
         \]
         and we can do it by structural induction on $b$.
-        
+
         \begin{itemize}
             \item Base case $a \equiv n$. It's trivial to note that $\denotA{n}{s} = \denotN{n} = n = n = \denotN{n} = \denotB{n}{s'}$.
             \item Base case $a \equiv x$. In this case we have
@@ -220,26 +220,26 @@ citestyle=numeric  % numeric, alphabetic
 
 \begin{exercise}
     Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
-    
+
     \begin{proof} (AND)
         Define the examples set $S$ as
         \begin{center}
             \begin{tabular}{ c c c c }
                 \textbf{Examples} & \textbf{$a_1$} & \textbf{$a_2$} & \textbf{Output} \\
-                $E_1$ & 0 & 0 & $\ffv$ \\ 
-                $E_2$ & 0 & 1 & $\ffv$ \\  
+                $E_1$ & 0 & 0 & $\ffv$ \\
+                $E_2$ & 0 & 1 & $\ffv$ \\
                 $E_3$ & 1 & 0 & $\ffv$ \\
                 $E_4$ & 1 & 1 & $\ttv$
             \end{tabular}
         \end{center}
         where $a_1, a_2$ are attributes in $A$, $\ttv, \ffv$ are the two possible classes and $0, 1$ are the two possible values.
-        
+
         Now we can apply the algorithm \emph{ID3}.
         \begin{itemize}
             \item \textbf{Step 1} We create the root node $T$. The two tests fail: examples in $S$ are not in the same class and $A$ is not empty. So we have to chose $a \in A$ as the best attribute in $A$.
-            
+
             In order to chose the best attribute in $A$ we must calculate the \emph{entropy} (i.e., a measure of the disorder) and the \emph{information gain} (i.e., the expected reduction of entropy for a given set).
-            
+
             Entropy is
             \[
             E(S) = - \sum_{c=1}^{m} p_c \log(p_c)
@@ -248,12 +248,12 @@ citestyle=numeric  % numeric, alphabetic
             \[
             E(S) = - p_- \log(p_-) - p_+ \log(p_+)
             \]
-            
+
             And the gain
             \[
             G(S,a) = E(S) - \sum_{v\in V(a)} \frac{|S_{a=v}|}{|S|} E(S_{a=v})
             \]
-            
+
             So, instancing the two formulas on our data we obtain
             \[
             p_- = \frac{|S_-|}{|S|} = \frac{3}{4} \qquad p_+ = \frac{|S_+|}{|S|} = \frac{1}{4}
@@ -272,26 +272,26 @@ citestyle=numeric  % numeric, alphabetic
             \end{split}
             \end{equation*}
             \fixme{Non può essere negativo!}
-            
+
             From the above we can chose the attribute $a_1$, set it as $T$ and make two recursive call:
             \begin{itemize}
                 \item $ID3(S_{a_1=0}, A \setdiff \{a_1\})$
                 \item $ID3(S_{a_1=1}, A \setdiff \{a_1\})$
             \end{itemize}
-            
+
             \item \textbf{Step 2} First recursive call from Step 1. We have $S = \{ \langle 0,0,\ffv \rangle, \langle 0,1,\ffv \rangle \}$, $A = \{a_2\}$. We create a new root node $T$ and we can assign $\ffv$ to it because the elements in $S$ have the same class.
-            
+
             \item \textbf{Step 3} Second recursive call from Step 1. We have $S = \{ \langle 1,0,\ffv \rangle, \langle 1,1,\ttv \rangle \}$, $A=\{a_2\}$. We create a new root node $T$ and assign $a_2$ to it because $a_2$ is the last attribute in $A$ (i.e., the optimal one), then we can make the recursive call:
             \begin{itemize}
                 \item $ID3(S_{a_2=0}, A \setdiff \{a_2\})$
                 \item $ID3(S_{a_2=1}, A \setdiff \{a_2\})$
             \end{itemize}
-            
+
             \item \textbf{Step 4} First recursive call from Step 3. We have $S=\{\langle 1,0,\ffv \rangle \}$ and for this we can assign $\ffv$ to $T$ since it is the last element in $S$, making a leaf.
-            
+
             \item \textbf{Step 5} Second recursive call from Step 3. We have $S=\{ \langle 1,1,\ttv \rangle \}$ and for this we can assign $\ttv$ to $T$ since it is the last element in $S$, making a leaf.
         \end{itemize}
-        
+
         \begin {tikzpicture}[-latex ,auto ,node distance =2 cm and 2cm, on grid, semithick, state/.style ={ circle ,top color =white , bottom color = white, draw, black , text=black, minimum width =1 cm}]
         \node[state] (A) {$a_1$};
         \node[state] (B) [below left =of A] {$\ffv$};
@@ -303,7 +303,7 @@ citestyle=numeric  % numeric, alphabetic
         \path (C) edge node {$0$} (D);
         \path (C) edge node {$1$} (E);
     \end{tikzpicture}
-    
+
 \end{proof}
 \end{exercise}
 
@@ -321,21 +321,21 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
         \end{tabular}
     \end{center}
     where $a_1, a_2$ are attributes in $A$, $\ttv, \ffv$ are the two possible classes and $0, 1$ are the two possible values.
-    
+
     Now we can apply the algorithm \emph{ID3}.
     \begin{itemize}
         \item \textbf{Step 1} We create the root node $T$. The two tests fail: examples in $S$ are not in the same class and $A$ is not empty. So we have to chose $a \in A$ as the best attribute in $A$.
-        
+
         For simplicity this part is skipped and $a_1$ is chosen as the optimal attribute.
-        
+
         From the above we can chose the attribute $a_1$, set it as $T$ and make two recursive call:
         \begin{itemize}
             \item $ID3(S_{a_1=0}, A \setdiff \{a_1\})$
             \item $ID3(S_{a_1=1}, A \setdiff \{a_1\})$
         \end{itemize}
-        
+
         \item \textbf{Step 2} First recursive call from Step 1. We have $S = \{ \langle 0,0,\ffv \rangle, \langle 0,1,\ffv \rangle \}$, $A = \{a_2\}$. We create a new root node $T$ and we can assign $\ffv$ to it because the elements is $S$ are have the same class.
-        
+
         \item \textbf{Step 3} Second recursive call from Step 1. We have $S = \{ \langle 1,1,\ttv \rangle \}$, $A=\{a_2\}$. We create a new root node $T$ and assign $\ttv$ to it because elements in $S$ have the same class.
     \end{itemize}
 \end{proof}
@@ -361,17 +361,17 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
     \begin{verbatim}
     -- high order
     fn x.x
-    
+
     -- apply func arg
     --   Apply the function `func` to argument `arg`.
     fn x. (fn y. (x y) 1) fn z. z+1
     \end{verbatim}
-    
+
     Parte 2:
     \begin{verbatim}
     fn x.x fn y.y+1
     \end{verbatim}
-    
+
 \end{proof}
 
 \end{exercise}
@@ -397,7 +397,7 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
         fn \ x .\ M\ N \to M \{ x := N \}
         \endprooftree
         \end{equation}
-        
+
         \begin{equation}
         \rulename{APP.N}
         \prooftree
@@ -414,33 +414,33 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
 
 \begin{exercise}
     Dimostrare formalmente che la valutazione (esecuzione) di un programma è deterministica. Se $M \to M'$ e $M \to M''$ allora $M' = M''$.
-    
+
     \begin{proof}
         Si enuncia prima, in modo formale, la proposizione.
         \[
         \forall M, M', M'' \in Term: M \to M' \land M \to M'' \Rightarrow M' = M''
         \]
         Ciò viene mostrato per induzione sulla struttura di M.
-        
+
         \begin{itemize}
             \item Caso base. Prendiamo in esame il caso $M = true$.
-            
-            Applicando l'enunciato abbiamo 
+
+            Applicando l'enunciato abbiamo
             \[
             true \not\to M' \land true \not\to M'' \Rightarrow M' = M''
             \]
             ma questo è banalmente vero, visto che $false \Rightarrow
             true$ è $true$.
-            
+
             Gli altri casi sono analoghi.
-            
+
             \item Passo induttivo. Prendiamo in esame $M = N_1 + N_2$.
-            
+
             Applicando l'enunciato ottenuamo
             \[
             N_1 + N_2 \to N' \land N_1 + N_2 \to N'' \Rightarrow N' = N''
             \]
-            
+
             Per ipotesi induttiva sappiamo che vale
             \begin{equation*}
             \begin{split}
@@ -452,7 +452,7 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
             \[
             N' = N'' \Leftrightarrow N_1' + N_2' = N_1'' + N_2''
             \]
-            
+
             A questo punto, sapendo che anche la somma è un'operazione
             deterministica concludo che $M' = M''$.
         \end{itemize}
@@ -474,12 +474,12 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
 
     \begin{proof}
         By structural induction on $M$.
-        
+
         \begin{itemize}
             \item Case $M = \true$. $M$ is derivable using $\mathrm{T-TRUE}$ rule. Then we know that $\FV(M) = \FV(true) = \emptyset$ by definition and $\emptyset \subseteq \dom(\Gamma)$, thus $\FV(M) \subseteq \dom(\Gamma)$.
             \item Case $M = \false$ and $M=n$ are identical to case $M = \true$.
             \item Case $M = x$. $M$ is derivable using $\mathrm{T-VAR}$ and the rule is applicable only if $x \in \Gamma$. Then we know $\FV(M) = \FV(x) = \{x\}$. Thus, $\FV(M) = \FV(x) \subseteq \dom(\Gamma)$.
-            \item Case $M = M_1 + M_2$. $M$ is derivable by $\mathrm{T-SUM}$. 
+            \item Case $M = M_1 + M_2$. $M$ is derivable by $\mathrm{T-SUM}$.
             \[
                 \rulename{T-SUM}
                 \prooftree
@@ -488,11 +488,11 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
                   \Gamma \vdash M_1+M_2 :\mathrm{Nat}
                 \endprooftree
             \]
-            Then we know that 
+            Then we know that
             \[
                 \FV(M) = \FV(M_1 + M_2) = \FV(M_1) \cup \FV(M_2)
             \]
-            and by the inductive hypothesis 
+            and by the inductive hypothesis
             \[
                 \FV(M_1) \in \Gamma \land \FV(M_2) \in \Gamma
             \]
@@ -511,7 +511,7 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
                 \endprooftree
             \]
             We know that $\FV(M) = \FV(fx:\tT_1.M:\tT_1 \to \tT_2) = \FV(M) \setminus \{x\}$. Let $\Gamma' = \Gamma, x$. By the inductive hypothesis we know that $\FV(M) \subseteq \Gamma = \Gamma' \setminus \{x\}$, thus $\FV(M) \subseteq \dom(\Gamma')$.
-            
+
         \end{itemize}
     \end{proof}
 \end{exercise}
@@ -525,11 +525,11 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
 \subsection{Exercise 1}
 
 \begin{exercise}
-	Find a $URM$-program that calculates $x \div 2$.
-	
-	\begin{proof}
-		Memory initialization: $r_1 = x, r_2 = 2, r_3 = 0, r_4 = 0$.
-		
+    Find a $URM$-program that calculates $x \div 2$.
+
+    \begin{proof}
+        Memory initialization: $r_1 = x, r_2 = 2, r_3 = 0, r_4 = 0$.
+
 \begin{verbatim}
 LOOP: J(1,4,RIS)
       S(3)
@@ -539,17 +539,17 @@ LOOP: J(1,4,RIS)
  RIS: MOV(3,1)
  END:
 \end{verbatim}
-	\end{proof}
+    \end{proof}
 \end{exercise}
 
 \subsection{Exercise 2}
 
 \begin{exercise}
-	Find a $URM$-program that calculates $\lceil x \div 2 \rceil$.
-	
-	\begin{proof}
-		Memory initialization: $r_1 = x, r_2 = 2, r_3 = 0, r_4 = 0, r_5 = 0$.
-		
+    Find a $URM$-program that calculates $\lceil x \div 2 \rceil$.
+
+    \begin{proof}
+        Memory initialization: $r_1 = x, r_2 = 2, r_3 = 0, r_4 = 0, r_5 = 0$.
+
 \begin{verbatim}
 LOOP1: J(1,5,RIS)
        S(4)
@@ -561,7 +561,7 @@ LOOP2: J(2,3;LOOP1)
 RIS:
 END:
 \end{verbatim}
-	\end{proof}
+    \end{proof}
 \end{exercise}
 
 \subsection{Exercise 3}
@@ -569,7 +569,7 @@ END:
 \begin{exercise}
     Let $URM^-$ be a $URM$-machine without the jump instruction.
     Prove that $\calC^- \not\subseteq \calC$. (Note: for simplicity consider only unary functions, $f: \Nset \to \Nset$)
-    
+
     \begin{proof}
         Intuitively, a $URM^-$ program must stop in a finite number of steps $l(P)$ (i.e., the length of the program).
         For this reason we can compute only functions like
@@ -580,27 +580,27 @@ END:
         \[
         f(x) = x + c
         \]
-        
+
         We need to prove that the output for an $URM^-$ program (i.e., the content of the first register) is in the desidered form.
         However, we need to prove that all registers are in the desidered form.\footnote{If we prove the proposition proving the condition only for the first register, when treating the transfer instruction we cannot say anything on the content of other registers, for this we cannot end the proof.}
-        
+
         So, we want to prove
         \[ r_i(x, j) = c \]
         or
         \[ r_i(x, j) = x + c \]
         where $x$ is the input and $j$ is the number of steps and holds for each register $i$.
-        
+
         We can prove that by induction on $j$.
-        
+
         \begin{itemize}
-            \item Base case. $j = 0$. 
+            \item Base case. $j = 0$.
             \begin{itemize}
                 \item $r_1(x, 0) = x$ or $r_1(x, 0) = 0$,
                 \item $r_{i > 1} (x, 0) = 0$.
             \end{itemize}
-            
+
             \item Inductive case. $j \to j + 1$.
-            
+
             We can split cases base on instructions
             \begin{itemize}
                 \item $Z(n)$. $r_n(x, j+1) = 0$, that is what we want.
@@ -608,10 +608,10 @@ END:
                 \item $T(m, n)$. $r_n(x, j + 1) = r_m(x, j)$, that by inductive hypothesis holds.
             \end{itemize}
         \end{itemize}
-        
+
         We have proven that all registers of a $URM^-$ machin, for each program $P$, keeps the form $c$ or $x + c$. From this we can conclude that $\calC^- \not\subseteq \calC$.
     \end{proof}
-    
+
 \end{exercise}
 
 
