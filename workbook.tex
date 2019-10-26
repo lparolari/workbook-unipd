@@ -575,32 +575,32 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
 \subsection{Exercise 3.3}
 
 \begin{exercise}
-	Is $\Gamma \vdash x\ x : \tT$ derivable? If yes find a derivation for some $\Gamma, \tT$, otherwise prove that is not derivable.
+    Is $\Gamma \vdash x\ x : \tT$ derivable? If yes find a derivation for some $\Gamma, \tT$, otherwise prove that is not derivable.
 
-	\begin{proof}
-		We can construct the proof tree.
-		\begin{align*}
-		    \prooftree
-		      \prooftree
-		        \nohyp
-		        \justifies
-		          \Gamma \vdash x : \tT_1 \to T
-		        \using
-		          x : \tT_1 \to T \in \Gamma
-		      \endprooftree
-		      \prooftree
-		        \nohyp
-		        \justifies
-		          \Gamma \vdash x : \tT_1
-		        \using
-		          x : \tT_1 \in \Gamma
-		      \endprooftree
-		      \justifies
-		        \Gamma \vdash x\ x : \tT
-		    \endprooftree
-		\end{align*}
-		We obtain a $\Gamma$ in which $x$ should be two different things for each $T$, thus, the judgment is not derivable.
-	\end{proof}
+    \begin{proof}
+        We can construct the proof tree.
+        \begin{align*}
+            \prooftree
+              \prooftree
+                \nohyp
+                \justifies
+                  \Gamma \vdash x : \tT_1 \to T
+                \using
+                  x : \tT_1 \to T \in \Gamma
+              \endprooftree
+              \prooftree
+                \nohyp
+                \justifies
+                  \Gamma \vdash x : \tT_1
+                \using
+                  x : \tT_1 \in \Gamma
+              \endprooftree
+              \justifies
+                \Gamma \vdash x\ x : \tT
+            \endprooftree
+        \end{align*}
+        We obtain a $\Gamma$ in which $x$ should be two different things for each $T$, thus, the judgment is not derivable.
+    \end{proof}
 \end{exercise}
 
 \subsection{Exercise 3.8}
@@ -679,73 +679,73 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
  \fixme{Translate into english.}
 
 \begin{exercise}
-	Formalize and prove the Theorem \ref{th_type_uniqueness}
+    Formalize and prove the Theorem \ref{th_type_uniqueness}
 
-	\begin{proof}
-		First of all we must formalize the theorem in order to prove it.
-		\begin{align*}
-			\forall \Gamma, \tT \itc \Gamma \vdash M : \tT \Rightarrow \\
-			(\Gamma \vdash M : T_1 \land \Gamma \vdash M : T_2 \Rightarrow T_1 = T_2) \\
-			\land (??)
-		\end{align*}
-		From this definition we can prove the theorem using two sub-lemmas: Lemma \ref{atpl_ex_type_uniqueness_lemma1} and \ref{atpl_ex_type_uniqueness_lemma2}.
-	\end{proof}
+    \begin{proof}
+        First of all we must formalize the theorem in order to prove it.
+        \begin{align*}
+            \forall \Gamma, \tT \itc \Gamma \vdash M : \tT \Rightarrow \\
+            (\Gamma \vdash M : T_1 \land \Gamma \vdash M : T_2 \Rightarrow T_1 = T_2) \\
+            \land (??)
+        \end{align*}
+        From this definition we can prove the theorem using two sub-lemmas: Lemma \ref{atpl_ex_type_uniqueness_lemma1} and \ref{atpl_ex_type_uniqueness_lemma2}.
+    \end{proof}
 \end{exercise}
 
 \begin{theorem}
-	\label{th_type_uniqueness}
-	Given a context $\Gamma$, if a term has a type in $\Gamma$ then it's type is unique and it's derivation is unique.
+    \label{th_type_uniqueness}
+    Given a context $\Gamma$, if a term has a type in $\Gamma$ then it's type is unique and it's derivation is unique.
 \end{theorem}
 
 \begin{lemma}
-	\label{atpl_ex_type_uniqueness_lemma1}
-	\begin{align*}
-	    \forall \Gamma, \tT \itc \Gamma \vdash M : \tT \Rightarrow \\
-	    \Gamma \vdash M : T_1 \land \Gamma \vdash M : T_2 \Rightarrow T_1 = T_2
-	\end{align*}
+    \label{atpl_ex_type_uniqueness_lemma1}
+    \begin{align*}
+        \forall \Gamma, \tT \itc \Gamma \vdash M : \tT \Rightarrow \\
+        \Gamma \vdash M : T_1 \land \Gamma \vdash M : T_2 \Rightarrow T_1 = T_2
+    \end{align*}
 
-	\begin{proof}
-		By structural induction on $M$.
+    \begin{proof}
+        By structural induction on $M$.
 
-		Case $M = \true$. We obtain
-		\[
-		    \Gamma \vdash \true : \tT_1 \land \Gamma \vdash \true : \tT_2
-		\]
-		and by the $\mathrm{T-TRUE}$ rule we know that $M$ is derivable in $\Gamma$. By the inversion lemma, instead, we know that $\tT_1 = \Bool$ and $\tT_2 = \Bool$, so the lemma holds.
+        Case $M = \true$. We obtain
+        \[
+            \Gamma \vdash \true : \tT_1 \land \Gamma \vdash \true : \tT_2
+        \]
+        and by the $\mathrm{T-TRUE}$ rule we know that $M$ is derivable in $\Gamma$. By the inversion lemma, instead, we know that $\tT_1 = \Bool$ and $\tT_2 = \Bool$, so the lemma holds.
 
-		Case $M = \false$. Identical to the one above.
+        Case $M = \false$. Identical to the one above.
 
-		Case $M = n$. Identical to the two above, using the $\mathrm{T-NAT}$ rule.
+        Case $M = n$. Identical to the two above, using the $\mathrm{T-NAT}$ rule.
 
-		Case $M = M_1 + M_2$. In this case we obtain
-		\[
-		    \Gamma \vdash M_1 + M_2 : \tT_1 \land \Gamma \vdash M_1 + M_2 : \tT_2
-		\]
-		and we know that is derivable using the rule $\mathrm{T-SUM}$, so we have
-		\[
-		    \prooftree
-		        \Gamma \vdash M_1 : \tT_1
-		        \qquad
-		        \Gamma \vdash M_2 : \tT_1
-		      \justifies
-		        \Gamma \vdash M_1 + M_2 : \tT_1
-		    \endprooftree
-		\]
-		and
-		\[
-		    \prooftree
-		        \Gamma \vdash M_1 : \tT_2
-		        \qquad
-		        \Gamma \vdash M_2 : \tT_2
-		      \justifies
-		        \Gamma \vdash M_1 + M_2 : \tT_2
-		    \endprooftree
-		\]
-		Then, by the inversion lemma we note that the type of $M_1 + M_2$, $M_1$, $M_2$ is $\Nat$. Now we know that the types on the last level of the tree match and we can apply the inductive hypothesis, that holds on the sub-expression, so the lemma holds.
-		\fixme {Riscrivere questa frase in modo più formale (meno scritte, più formule).}
+        Case $M = M_1 + M_2$. In this case we obtain
+        \[
+            \Gamma \vdash M_1 + M_2 : \tT_1 \land \Gamma \vdash M_1 + M_2 : \tT_2
+        \]
+        and we know that is derivable using the rule $\mathrm{T-SUM}$, so we have
+        \[
+            \prooftree
+                \Gamma \vdash M_1 : \tT_1
+                \qquad
+                \Gamma \vdash M_2 : \tT_1
+              \justifies
+                \Gamma \vdash M_1 + M_2 : \tT_1
+            \endprooftree
+        \]
+        and
+        \[
+            \prooftree
+                \Gamma \vdash M_1 : \tT_2
+                \qquad
+                \Gamma \vdash M_2 : \tT_2
+              \justifies
+                \Gamma \vdash M_1 + M_2 : \tT_2
+            \endprooftree
+        \]
+        Then, by the inversion lemma we note that the type of $M_1 + M_2$, $M_1$, $M_2$ is $\Nat$. Now we know that the types on the last level of the tree match and we can apply the inductive hypothesis, that holds on the sub-expression, so the lemma holds.
+        \fixme {Riscrivere questa frase in modo più formale (meno scritte, più formule).}
 
-		Case $M = \condif{M_1}{M_2}{M_3}$, $M = \fnfun{x}{M_1}$, $\fnapp{M_1}{M_2}$ are left as exercises to the reader.
-	\end{proof}
+        Case $M = \condif{M_1}{M_2}{M_3}$, $M = \fnfun{x}{M_1}$, $\fnapp{M_1}{M_2}$ are left as exercises to the reader.
+    \end{proof}
 \end{lemma}
 
 % *********************
