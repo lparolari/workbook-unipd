@@ -751,9 +751,9 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
 % *********************
 \chapter{Computability}
 
-\section{URM calcolabilità}
+\section{Exercises}
 
-\subsection{Exercise 1}
+\subsection{URM Machine}
 
 \begin{exercise}
     Find a $URM$-program that calculates $x \div 2$.
@@ -766,14 +766,12 @@ LOOP: J(1,4,RIS)
       S(3)
       S(4)
       S(4)
-      JMP(1,1,LOOP)
- RIS: MOV(3,1)
+      J(1,1,LOOP)
+ RIS: T(3,1)
  END:
 \end{verbatim}
     \end{proof}
 \end{exercise}
-
-\subsection{Exercise 2}
 
 \begin{exercise}
     Find a $URM$-program that calculates $\lceil x \div 2 \rceil$.
@@ -788,14 +786,12 @@ LOOP1: J(1,5,RIS)
 LOOP2: J(2,3;LOOP1)
        S(5)
        S(3)
-       JMP(1,1,LOOP2)
+       J(1,1,LOOP2)
 RIS:
 END:
 \end{verbatim}
     \end{proof}
 \end{exercise}
-
-\subsection{Exercise 3}
 
 \begin{exercise}
     Let $URM^-$ be a $URM$-machine without the jump instruction.
@@ -804,13 +800,9 @@ END:
     \begin{proof}
         Intuitively, a $URM^-$ program must stop in a finite number of steps $l(P)$ (i.e., the length of the program).
         For this reason we can compute only functions like
-        \[
-        f(x) = c
-        \]
+        \[ f(x) = c \]
         or
-        \[
-        f(x) = x + c
-        \]
+        \[ f(x) = x + c \]
 
         We need to prove that the output for an $URM^-$ program (i.e., the content of the first register) is in the desidered form.
         However, we need to prove that all registers are in the desidered form.\footnote{If we prove the proposition proving the condition only for the first register, when treating the transfer instruction we cannot say anything on the content of other registers, for this we cannot end the proof.}
@@ -819,10 +811,9 @@ END:
         \[ r_i(x, j) = c \]
         or
         \[ r_i(x, j) = x + c \]
-        where $x$ is the input and $j$ is the number of steps and holds for each register $i$.
+        where $x$ is the input, $j$ is the number of steps (executed instructions) and $i$ is the index of a register.
 
         We can prove that by induction on $j$.
-
         \begin{itemize}
             \item Base case. $j = 0$.
             \begin{itemize}
@@ -832,7 +823,7 @@ END:
 
             \item Inductive case. $j \to j + 1$.
 
-            We can split cases base on instructions
+            We have three cases based on the type of the $j+1$-th instruction
             \begin{itemize}
                 \item $Z(n)$. $r_n(x, j+1) = 0$, that is what we want.
                 \item $S(n)$. $r_n(x, j+1) = r_n(x, j) + 1$, that by inductive hypothesis and by sum on naturals holds.
@@ -840,10 +831,13 @@ END:
             \end{itemize}
         \end{itemize}
 
-        We have proven that all registers of a $URM^-$ machin, for each program $P$, keeps the form $c$ or $x + c$. From this we can conclude that $\calC^- \not\subseteq \calC$.
+        We have proved that all registers of a $URM^-$ machine, for each program $P$, keeps the form $c$ or $x + c$. From this we can conclude that $\calC^- \not\subseteq \calC$.
     \end{proof}
 
 \end{exercise}
 
+\begin{exercise}
+	Write the definition of URM-computability.
+\end{exercise}
 
 \end{document}
