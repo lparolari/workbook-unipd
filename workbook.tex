@@ -751,6 +751,105 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
 % *********************
 \chapter{Computability}
 
+\section{Course Notes}
+
+\subsection{Algorithm} 
+
+An algorithm is a procedure made by a set of simple steps that allows to obtain a result (i.e., transform some input in some other output).
+
+\subsection{Mathematical Notation}
+
+\begin{itemize}
+	\item \textbf{Cartesian} Given $A, B$ sets, $A \times B = \{ (a,b) \mid a \in A, b \in B\}$.
+	\item \textbf{Relation} Given $A, B$ sets, $r \subseteq A \times B$ is a relation.
+	\item \textbf{Function} $\fund{f}{A}{B}$ is a particular type of relation that maps every element of $A$ with one and only one element of $B$.
+	\item \textbf{Domain} $\dom(f) = \{ a \in A \mid \exists b \in B \st f(a) = b \}$.
+	\item \textbf{Size} $|A| = |B|$ if exists $\fund{f}{A}{B}$ biunivoca\fixme{Translate}. 
+\end{itemize}
+
+\subsection{Calculation Model}
+
+\begin{itemize}
+	\item $\calA$, the algorithms class.
+	\item $\calF$, the set of unary functions $\fund{f}{\Nset}{\Nset}$.
+	\item $\forall A \in \calA \itc \fund{f_A}{\Nset}{\Nset}$ the calculated function.
+	\item Set of calculated functions by $A$ 
+	\begin{align*}
+		\calF_A &= \{ f \in \calF \mid \exists A \in \calA \st f = f_A \} \\ 
+		  &= \{ f_A \mid A \in \calA \} \\
+		  &\subseteq \calF
+	\end{align*}.
+\end{itemize}
+
+\begin{lemma}{(Calculable functions are countable)}
+	\begin{proof}
+		Let $I$ the set of instructions (finite by definition). $\calA = I \cup I \times I \cup I \times I \times \ldots$. So $\calA$ is an union of enumerable sets.
+		\[
+		  |\calA| = | \bigcup_{i \geq 1} I^i | \leq | \Nset |
+		\]
+	\end{proof}
+	\fixme{then??}
+\end{lemma}
+
+\begin{lemma}{(All functions are not countable)}
+	\todo{Add this}
+\end{lemma}
+
+\subsection{The  $\calR$ class}
+
+The $\calR$ class is the minimal class of functions that contains base functions
+\begin{itemize}
+	\item successor,
+	\item zero,
+	\item project
+\end{itemize}
+and closed by 
+\begin{itemize}
+	\item generalized composition,
+	\item primitive recursion,
+	\item unlimited minimalization.
+\end{itemize}
+
+\section{Exercises from Notes}
+
+\begin{exercise}{(Exercise 1.1)}
+	Let $URM^-$ be the $URM$ machine without the $S(n)$ instruction, replaced by $P(n)$ that calculates $r_n \leftarrow r_n - 1$. What is the relation between $\calC$ and $\calC^-$?
+	
+	\begin{proof}
+		We need to prove that $\calC \subseteq \calC^-$ and $\calC^- \subseteq \calC$.
+		
+		Let's start from $\calC^- \subseteq \calC$. This is true because we can build an $URM$ program that calculates $n-1$.
+		
+		The case $\calC \subseteq \calC^-$ it's not true. By the Lemma \ref{comp_ex_1_1_lemma} we know that the content of a $URM^-$ machine register cannot be greater than $\max \{ \vec{x} \}$ and this does not allow us to calculate $S(n).$
+	\end{proof}
+\end{exercise}
+
+\begin{lemma}
+	\label{comp_ex_1_1_lemma}
+	The content of $URM^-$ registers is always $\leq \max \vec{x}$.
+	
+	\begin{proof}
+		By induction on the length of program $h$.
+		
+		\noindent Case $h = 0$. Trivially true because the content of the memory is \[ x_1\ x_2\ \ldots\ x_l\ 0\ 0\ \ldots \]
+		
+		\noindent Case $h + 1$. The $i$-th instruction of a program can be either
+		\begin{itemize}
+			\item $T(m,n)$, that is $r_n \leftarrow t_m$ and we have two cases
+			\begin{itemize}
+				\item $m \leq \rho(P) \Rightarrow r_n \leq \max \{\vec{x}\}$.
+				\item $m > \rho(P) \Rightarrow r_n = 0$.
+			\end{itemize}
+			\item $P(n)$, then $r_n \leftarrow r_n - 1$ and this implies $r_n \leq \max \{\vec{x}\}$.
+			\item $Z(n)$, then $r_n \leftarrow 0$ and this implies $r_n \leq \max \{\vec{x}\}$.
+			\item $J(m,n,t)$, that does not modify the memory so we $r_n$ is left unchanged.
+		\end{itemize}
+		So $\forall i \in N \itc r_i \leq \max \{ \vec{x} \}$.
+	\end{proof}
+\end{lemma}
+
+
+
 \section{Exercises}
 
 \subsection{URM Machine}
@@ -787,8 +886,8 @@ LOOP2: J(2,3;LOOP1)
        S(5)
        S(3)
        J(1,1,LOOP2)
-RIS:
-END:
+ RIS:
+ END:
 \end{verbatim}
     \end{proof}
 \end{exercise}
