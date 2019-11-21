@@ -408,6 +408,90 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
 \end{proof}
 \end{exercise}
 
+\section{Esami passati}
+
+\subsection{Esame del 13/05/2013}
+
+\begin{exercise}{(1)}
+    Spiegare gli ingredienti fondamentali del supervised learning e il ruolo della VC-dimension.
+    \begin{proof}
+        Il supervised learning è una tecnica di apprendimento che consente di apprendere delle funzioni target grazie ad un algoritmo di apprendimento e ad un insieme di esempi. In particolare nel supervised learning le ``forze'' in gioco sono
+        \begin{itemize}
+            \item la funzione target $\fund{f}{\calX}{Y}$, ovvero la funzione che si vuole apprendere,
+            \item gli esempi $(\vec{x}_1, y_1), \ldots, (\vec{x}_n, y_n)$ che descrivono punti della funzione target,
+            \item lo spazio delle ipotesi $\calH$, ovvero lo spazio di ricerca entro il quale si cercano funzioni che approssimano al meglio $f$,
+            \item l'algoritmo di apprendimento che esplora $\calH$ per trovare una funzione $g$ tale che $g \approx f$.         
+        \end{itemize}
+    
+        Nell'apprendimento supervisionato, al contrario di altri tipi di apprendimento, il training set è formato da coppie che rappresentano l'input e l'output della funzione. Conoscere anche il risultato atteso della funzione su quell'input è di particolare rilevanza e ci permette di lavorare con strumenti che sfruttano molto questa proprietà (esempio: algoritmo di aggiornamento dei pesi della rete neurale).
+        
+        La VC-dimension è una misura della complessità dello spazio delle ipotesi $\calH$. Ci permette di capire quanto lo spazio delle ipotesi $\calH$ è ricco o meno, ed in particolare più la VC-dimension è alta più lo spazio delle ipotesi è vasto e in questo spazio riusciamo a trovare una funzione che ``fitta'' meglio la funziona target; questo però ne inficia la generalità in quanto una funzione $g$ che approssima molto bene $f$ solo sugli input del training set è poco utile. 
+        
+        Alcuni esempi di spazio delle ipotesi sono gli iperpiani in $\Rset^2$ o $\Rset^n$, dei cerchi, dei rettangoli... e la VC-dimension ne misura la complessità. In particolare la VC-dimension è la cardinalità massima dell'insieme dei punti frazionabili nello spazio per ogni dicotomia.
+        
+        Più formalmente, dato $S \subset \calX$, dove $\calX$ è lo spazio di input
+        \[
+            \forall S' \subseteq S \itc \exists h \in \calH \st \forall x \in S \itc h(x) = 1 \Leftrightarrow x \in S'
+        \] 
+        ovvero $S'$ è frammentabile da $h$.
+        Quindi
+        \[
+            VC(\calH) = max \mid S \mid \itc S\text{ è frammentato da }\calH,\text{ su }S \subseteq \calX
+        \]
+        
+        Da ciò si evince che la VC-dimension, sullo spazio delle ipotesi degli iperpiani in $\Rset^2$ è 3.
+    \end{proof}
+\end{exercise}
+
+\begin{exercise}(3)
+    Definizione di errore ideale ed empirico, e discutere in che modo possono essere messi in relazione tra loro.
+    
+    \begin{proof}
+        Dato un training set composto da un certo numero di coppie $(\vec{x},y)$, queste sono generate secondo una funzione di probabilità $P(\vec{x},y) = P(\vec{x})P(y\mid\vec{x})$. Prendendo un ipotesi ``plausibile'' da $\calH$ come $\fund{g}{\calX}{\calY}$, l'errore ideale è l'errore compiuto su un certo input dalla funzione $g$ considerando la probabilità $P(\vec{x},y)$, mentre l'errore empirico è l'errore commesso da $g$ sul training set. Una buona ipotesi dovrebbe minimizzare l'errore ideale.
+    \end{proof}
+\end{exercise}
+
+\begin{exercise}{(4)}
+    Spiegare le strategie di scelta dell’attributo ottimo negli alberi di decisione. 
+    
+    \begin{proof}
+        La costruzione dell'albero è la fase più importante per gli alberi di decisione. Una buona costruzione dell'albero può sicuramente migliorare le performance e la reazione dell'albero ad input sconosciuti, e l'algoritmo ID3 rappresenta uno dei modi per creare gli alberi dai dati a dispoziione.
+        
+        L'algoritmo ID3 prende in input $S$ l'insieme degli esempi e $A$ l'insieme degli attributi, e si compone delle seguenti fasi:
+        \begin{itemize}
+            \item crea la radice T
+            \item se l'insieme $S$ ha elementi tutti della stessa classe restituisci T con etichetta S
+            \item se l'insieme $A$ è vuoto restituisci T con etichetta ricorrente maggiore in $S$
+            \item scegli l'attributo ottimo
+            \item partiziona $S$ in base ai possibili valori che possono assumere per l'attributo scelto e restituisci T con sottoalberi $ID3(S_{a=v_j}, A-a), \forall j$.
+        \end{itemize}
+    
+        La scelta dell'attributo ottimo è effettuata secondo diversi criteri, ID3 si basa sul concetto di entropia e information gain. L'entropia è una misura del disordine, che applicata all'insieme $S$ ci permette di dire se il numero di elementi contenuti in $S$ è più o meno classificato correttamente. Un'altra entropia (vicina ad 1) indica che $S$ contiene circa lo stesso numero di elementi per ogni classe. L'attributo che genera questa entropia è quindi un buon candidato per essere scelto e per pratizionare $S$. ID3 si basa anche sull'information gain, che, tramite l'entropia, ci permette di capire quale attributo scegliere in base al guadagno di informazione.
+        
+        In particolare, l'entropia è calcolata (su $n$ classi) come
+        \[
+        \sum_{c=1}^{n} p_c log(p_c)
+        \]
+        dove $p_c = \frac{\mid S_c\mid}{\mid S \mid}$.
+        Il guadagno di informazione invece 
+        \[
+        G(S, a) = E(S) - X
+        \]
+        con $X$ la media pesata sugli elementi di una certa classe dell'entropia di quella classe, ovvero 
+        \[
+            G(S,a) = E(S) - \sum_{v \in V}\frac{|S_{a=v}|}{|S|} E(S_{a=v})
+        \]
+        
+        Altri criteri per definire l'information gain sono
+        \begin{itemize}
+            \item cross entropy,
+            \item gini index
+            \item miscalssification.
+        \end{itemize}
+        Che hanno delle curve più ripide rispetto all'entropia. Per esempio la curva della miscalssification è un ``triangolo''.
+    \end{proof}
+\end{exercise}
+
 % *********************
 \chapter{Advanced Topics on Programming Languages}
 
