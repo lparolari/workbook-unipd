@@ -113,7 +113,12 @@ citestyle=numeric  % numeric, alphabetic
 
 \begin{exercise}{(1.7)}
     \label{ex_1_7}
-    Prove that the equations of Equation \ref{eq_ex_1_7} define a total function $\calA$ in $\AExp \to (\ST \to \mathrm{Z})$: First argue that it is sufficient to prove that for each $a \in \AExp$ and each $s \in \ST$ there is exactly one value $v \in Z$ such that $\denotA{a}{s} = v$. Next use structural induction on the arithmetic expressions to prove that this is indeed the case.
+    Prove that the equations of Equation \ref{eq_ex_1_7} define a
+    total function $\calA$ in $\AExp \to (\ST \to \mathrm{Z})$: First
+    argue that it is sufficient to prove that for each $a \in \AExp$
+    and each $s \in \ST$ there is exactly one value $v \in Z$ such
+    that $\denotA{a}{s} = v$. Next use structural induction on the
+    arithmetic expressions to prove that this is indeed the case.
 
     \begin{equation}
     \label{eq_ex_1_7}
@@ -175,10 +180,13 @@ citestyle=numeric  % numeric, alphabetic
 \subsection{Exercise 1.12}
 
 \begin{exercise}
-    Let $s$ and $s'$ be two states satisfying that $s x = s' x$ for all $x$ in $FV(b)$. Prove that $\denotB{b}{s} = \denotB{b}{s'}$. $\FV$ is defined in Definition \ref{ex_1_12_fv}.
+    Let $s$ and $s'$ be two states satisfying that $s x = s' x$ for
+    all $x$ in $FV(b)$. Prove that $\denotB{b}{s} = \denotB{b}{s'}$. $\FV$
+    is defined in Definition \ref{ex_1_12_fv}.
 
     \begin{proof}
-        We assume that this sentences holds for $\calA$. (This is proved in Lemma \ref{ex_1_12_lemma}). We have to prove that
+        We assume that this sentences holds for $\calA$. (This is
+        proved in Lemma \ref{ex_1_12_lemma}). We have to prove that
         \[
         \forall b \in \BExp \itc \forall s, s' \in \ST \itc \forall x \in \FV(a) \itc sx = s'x \Rightarrow \denotB{b}{s} = \denotB{b}{s'}
         \]
@@ -213,7 +221,10 @@ citestyle=numeric  % numeric, alphabetic
 
 \subsection{Exercise 2.17}
 \begin{exercise}
-    Extend While with the construct repeat $S$ until $b$ and specify a structural operational semantics for it. (The semantics for the repeat-construct is not allowed to rely on the existence of a while-construct.)
+    Extend While with the construct repeat $S$ until $b$ and specify a
+    structural operational semantics for it. (The semantics for the
+    repeat-construct is not allowed to rely on the existence of a
+    while-construct.)
 
     \begin{proof}
         \prooftree
@@ -242,9 +253,12 @@ citestyle=numeric  % numeric, alphabetic
         By induction on the length of the derivation sequence $k$.
 
         \begin{itemize}
-            \item Case $k=0$. The configuration $\config{S_1;S_2}{s} \not\to^0$ cannot be derived, so this is trivially true.
+            \item Case $k=0$. The configuration $\config{S_1;S_2}{s}
+              \not\to^0$ cannot be derived, so this is trivially true.
 
-            \item Case $k+1$. We have $\config{S_1;S_2}{s} \to^{k+1} s''$. We can explicit a derivation step $\config{S_1;S_2}{s} \to \gamma \to^{k} s''$.
+            \item Case $k+1$. We have $\config{S_1;S_2}{s} \to^{k+1}
+              s''$. We can explicit a derivation step
+              $\config{S_1;S_2}{s} \to \gamma \to^{k} s''$.
 
             $\gamma$ is a new configuration with the form
             \begin{itemize}
@@ -252,7 +266,12 @@ citestyle=numeric  % numeric, alphabetic
                 \[
                     \config{S_1;S_2}{s} \to \config{S_1';S_2}{s'} \to^{k} s''
                 \]
-                and by the inductive hypothesis we know that $\exists s''', j_1, j_2 \st \config{S_1'}{s'} \to^{j_1} s''' \land \config{S_2}{s'''} \to^{j_2} s''$. Combining everything together we can note that $k_1 = j_1 + 1$ and $k_2 = j_2$. From this $k + 1 = k_1 + 1 + k_2 = j_1 + 1 + j_2$.
+                and by the inductive hypothesis we know that $\exists
+                s''', j_1, j_2 \st \config{S_1'}{s'} \to^{j_1} s'''
+                \land \config{S_2}{s'''} \to^{j_2} s''$. Combining
+                everything together we can note that $k_1 = j_1 + 1$
+                and $k_2 = j_2$. From this $k + 1 = k_1 + 1 + k_2 =
+                j_1 + 1 + j_2$.
 
                 \item $\config{S_2}{s'}$ if applied $\textrm{comp}^{2}_{\textrm{sos}}$. From this $k_1 = 1$ and $k_2 = k$, so $k + 1 = k_1 + k_2 = k + 1$.
             \end{itemize}
@@ -300,19 +319,27 @@ citestyle=numeric  % numeric, alphabetic
                 $E_4$ & 1 & 1 & $\ttv$
             \end{tabular}
         \end{center}
-        where $a_1, a_2$ are attributes in $A$, $\ttv, \ffv$ are the two possible classes and $0, 1$ are the two possible values.
+        where $a_1, a_2$ are attributes in $A$, $\ttv, \ffv$ are the
+        two possible classes and $0, 1$ are the two possible values.
 
         Now we can apply the algorithm \emph{ID3}.
         \begin{itemize}
-            \item \textbf{Step 1} We create the root node $T$. The two tests fail: examples in $S$ are not in the same class and $A$ is not empty. So we have to chose $a \in A$ as the best attribute in $A$.
+            \item \textbf{Step 1} We create the root node $T$. The two
+              tests fail: examples in $S$ are not in the same class
+              and $A$ is not empty. So we have to chose $a \in A$ as
+              the best attribute in $A$.
 
-            In order to chose the best attribute in $A$ we must calculate the \emph{entropy} (i.e., a measure of the disorder) and the \emph{information gain} (i.e., the expected reduction of entropy for a given set).
+            In order to chose the best attribute in $A$ we must
+            calculate the \emph{entropy} (i.e., a measure of the
+            disorder) and the \emph{information gain} (i.e., the
+            expected reduction of entropy for a given set).
 
             Entropy is
             \[
             E(S) = - \sum_{c=1}^{m} p_c \log(p_c)
             \]
-            where $p_c = \frac{|S_c|}{|S|}$, but for a binary classification it becomes
+            where $p_c = \frac{|S_c|}{|S|}$, but for a binary
+            classification it becomes
             \[
             E(S) = - p_- \log(p_-) - p_+ \log(p_+)
             \]
@@ -341,23 +368,39 @@ citestyle=numeric  % numeric, alphabetic
             \end{equation*}
             \fixme{Non può essere negativo!}
 
-            From the above we can chose the attribute $a_1$, set it as $T$ and make two recursive call:
+            From the above we can chose the attribute $a_1$, set it as
+            $T$ and make two recursive call:
             \begin{itemize}
                 \item $ID3(S_{a_1=0}, A \setdiff \{a_1\})$
                 \item $ID3(S_{a_1=1}, A \setdiff \{a_1\})$
             \end{itemize}
 
-            \item \textbf{Step 2} First recursive call from Step 1. We have $S = \{ \langle 0,0,\ffv \rangle, \langle 0,1,\ffv \rangle \}$, $A = \{a_2\}$. We create a new root node $T$ and we can assign $\ffv$ to it because the elements in $S$ have the same class.
+            \item \textbf{Step 2} First recursive call from Step 1. We
+              have $S = \{ \langle 0,0,\ffv \rangle, \langle 0,1,\ffv
+              \rangle \}$, $A = \{a_2\}$. We create a new root node
+              $T$ and we can assign $\ffv$ to it because the elements
+              in $S$ have the same class.
 
-            \item \textbf{Step 3} Second recursive call from Step 1. We have $S = \{ \langle 1,0,\ffv \rangle, \langle 1,1,\ttv \rangle \}$, $A=\{a_2\}$. We create a new root node $T$ and assign $a_2$ to it because $a_2$ is the last attribute in $A$ (i.e., the optimal one), then we can make the recursive call:
+            \item \textbf{Step 3} Second recursive call from Step
+              1. We have $S = \{ \langle 1,0,\ffv \rangle, \langle
+              1,1,\ttv \rangle \}$, $A=\{a_2\}$. We create a new root
+              node $T$ and assign $a_2$ to it because $a_2$ is the
+              last attribute in $A$ (i.e., the optimal one), then we
+              can make the recursive call:
             \begin{itemize}
                 \item $ID3(S_{a_2=0}, A \setdiff \{a_2\})$
                 \item $ID3(S_{a_2=1}, A \setdiff \{a_2\})$
             \end{itemize}
 
-            \item \textbf{Step 4} First recursive call from Step 3. We have $S=\{\langle 1,0,\ffv \rangle \}$ and for this we can assign $\ffv$ to $T$ since it is the last element in $S$, making a leaf.
+            \item \textbf{Step 4} First recursive call from Step 3. We
+              have $S=\{\langle 1,0,\ffv \rangle \}$ and for this we
+              can assign $\ffv$ to $T$ since it is the last element in
+              $S$, making a leaf.
 
-            \item \textbf{Step 5} Second recursive call from Step 3. We have $S=\{ \langle 1,1,\ttv \rangle \}$ and for this we can assign $\ttv$ to $T$ since it is the last element in $S$, making a leaf.
+            \item \textbf{Step 5} Second recursive call from Step
+              3. We have $S=\{ \langle 1,1,\ttv \rangle \}$ and for
+              this we can assign $\ttv$ to $T$ since it is the last
+              element in $S$, making a leaf.
         \end{itemize}
 
         \begin {tikzpicture}[-latex ,auto ,node distance =2 cm and 2cm, on grid, semithick, state/.style ={ circle ,top color =white , bottom color = white, draw, black , text=black, minimum width =1 cm}]
@@ -375,7 +418,8 @@ citestyle=numeric  % numeric, alphabetic
 \end{exercise}
 
 \begin{exercise}
-Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR. This time only three examples are given.
+Using algorithm \emph{ID3} build the decision trees for logical AND,
+OR and XOR. This time only three examples are given.
 
 \begin{proof} (AND)
     Define the examples set $S$ as
@@ -387,23 +431,36 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
             $E_4$ & 1 & 1 & $\ttv$ \\
         \end{tabular}
     \end{center}
-    where $a_1, a_2$ are attributes in $A$, $\ttv, \ffv$ are the two possible classes and $0, 1$ are the two possible values.
+    where $a_1, a_2$ are attributes in $A$, $\ttv, \ffv$ are the two
+    possible classes and $0, 1$ are the two possible values.
 
     Now we can apply the algorithm \emph{ID3}.
     \begin{itemize}
-        \item \textbf{Step 1} We create the root node $T$. The two tests fail: examples in $S$ are not in the same class and $A$ is not empty. So we have to chose $a \in A$ as the best attribute in $A$.
+        \item \textbf{Step 1} We create the root node $T$. The two
+          tests fail: examples in $S$ are not in the same class and
+          $A$ is not empty. So we have to chose $a \in A$ as the best
+          attribute in $A$.
 
-        For simplicity this part is skipped and $a_1$ is chosen as the optimal attribute.
+        For simplicity this part is skipped and $a_1$ is chosen as the
+        optimal attribute.
 
-        From the above we can chose the attribute $a_1$, set it as $T$ and make two recursive call:
+        From the above we can chose the attribute $a_1$, set it as $T$
+        and make two recursive call:
         \begin{itemize}
             \item $ID3(S_{a_1=0}, A \setdiff \{a_1\})$
             \item $ID3(S_{a_1=1}, A \setdiff \{a_1\})$
         \end{itemize}
 
-        \item \textbf{Step 2} First recursive call from Step 1. We have $S = \{ \langle 0,0,\ffv \rangle, \langle 0,1,\ffv \rangle \}$, $A = \{a_2\}$. We create a new root node $T$ and we can assign $\ffv$ to it because the elements is $S$ are have the same class.
+        \item \textbf{Step 2} First recursive call from Step 1. We
+          have $S = \{ \langle 0,0,\ffv \rangle, \langle 0,1,\ffv
+          \rangle \}$, $A = \{a_2\}$. We create a new root node $T$
+          and we can assign $\ffv$ to it because the elements is $S$
+          are have the same class.
 
-        \item \textbf{Step 3} Second recursive call from Step 1. We have $S = \{ \langle 1,1,\ttv \rangle \}$, $A=\{a_2\}$. We create a new root node $T$ and assign $\ttv$ to it because elements in $S$ have the same class.
+        \item \textbf{Step 3} Second recursive call from Step 1. We
+          have $S = \{ \langle 1,1,\ttv \rangle \}$, $A=\{a_2\}$. We
+          create a new root node $T$ and assign $\ttv$ to it because
+          elements in $S$ have the same class.
     \end{itemize}
 \end{proof}
 \end{exercise}
@@ -413,23 +470,50 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
 \subsection{Esame del 13/05/2013}
 
 \begin{exercise}{(1)}
-    Spiegare gli ingredienti fondamentali del supervised learning e il ruolo della VC-dimension.
+    Spiegare gli ingredienti fondamentali del supervised learning e il
+    ruolo della VC-dimension.
     \begin{proof}
-        Il supervised learning è una tecnica di apprendimento che consente di apprendere delle funzioni target grazie ad un algoritmo di apprendimento e ad un insieme di esempi. In particolare nel supervised learning le ``forze'' in gioco sono
+        Il supervised learning è una tecnica di apprendimento che
+        consente di apprendere delle funzioni target grazie ad un
+        algoritmo di apprendimento e ad un insieme di esempi. In
+        particolare nel supervised learning le ``forze'' in gioco sono
         \begin{itemize}
-            \item la funzione target $\fund{f}{\calX}{Y}$, ovvero la funzione che si vuole apprendere,
-            \item gli esempi $(\vec{x}_1, y_1), \ldots, (\vec{x}_n, y_n)$ che descrivono punti della funzione target,
-            \item lo spazio delle ipotesi $\calH$, ovvero lo spazio di ricerca entro il quale si cercano funzioni che approssimano al meglio $f$,
-            \item l'algoritmo di apprendimento che esplora $\calH$ per trovare una funzione $g$ tale che $g \approx f$.         
+            \item la funzione target $\fund{f}{\calX}{Y}$, ovvero la
+              funzione che si vuole apprendere,
+            \item gli esempi $(\vec{x}_1, y_1), \ldots, (\vec{x}_n,
+              y_n)$ che descrivono punti della funzione target,
+            \item lo spazio delle ipotesi $\calH$, ovvero lo spazio di
+              ricerca entro il quale si cercano funzioni che
+              approssimano al meglio $f$,
+            \item l'algoritmo di apprendimento che esplora $\calH$ per
+              trovare una funzione $g$ tale che $g \approx f$.
         \end{itemize}
     
-        Nell'apprendimento supervisionato, al contrario di altri tipi di apprendimento, il training set è formato da coppie che rappresentano l'input e l'output della funzione. Conoscere anche il risultato atteso della funzione su quell'input è di particolare rilevanza e ci permette di lavorare con strumenti che sfruttano molto questa proprietà (esempio: algoritmo di aggiornamento dei pesi della rete neurale).
+        Nell'apprendimento supervisionato, al contrario di altri tipi
+        di apprendimento, il training set è formato da coppie che
+        rappresentano l'input e l'output della funzione. Conoscere
+        anche il risultato atteso della funzione su quell'input è di
+        particolare rilevanza e ci permette di lavorare con strumenti
+        che sfruttano molto questa proprietà (esempio: algoritmo di
+        aggiornamento dei pesi della rete neurale).
         
-        La VC-dimension è una misura della complessità dello spazio delle ipotesi $\calH$. Ci permette di capire quanto lo spazio delle ipotesi $\calH$ è ricco o meno, ed in particolare più la VC-dimension è alta più lo spazio delle ipotesi è vasto e in questo spazio riusciamo a trovare una funzione che ``fitta'' meglio la funziona target; questo però ne inficia la generalità in quanto una funzione $g$ che approssima molto bene $f$ solo sugli input del training set è poco utile. 
+        La VC-dimension è una misura della complessità dello spazio
+        delle ipotesi $\calH$. Ci permette di capire quanto lo spazio
+        delle ipotesi $\calH$ è ricco o meno, ed in particolare più la
+        VC-dimension è alta più lo spazio delle ipotesi è vasto e in
+        questo spazio riusciamo a trovare una funzione che ``fitta''
+        meglio la funziona target; questo però ne inficia la
+        generalità in quanto una funzione $g$ che approssima molto
+        bene $f$ solo sugli input del training set è poco utile.
         
-        Alcuni esempi di spazio delle ipotesi sono gli iperpiani in $\Rset^2$ o $\Rset^n$, dei cerchi, dei rettangoli... e la VC-dimension ne misura la complessità. In particolare la VC-dimension è la cardinalità massima dell'insieme dei punti frazionabili nello spazio per ogni dicotomia.
+        Alcuni esempi di spazio delle ipotesi sono gli iperpiani in
+        $\Rset^2$ o $\Rset^n$, dei cerchi, dei rettangoli... e la
+        VC-dimension ne misura la complessità. In particolare la
+        VC-dimension è la cardinalità massima dell'insieme dei punti
+        frazionabili nello spazio per ogni dicotomia.
         
-        Più formalmente, dato $S \subset \calX$, dove $\calX$ è lo spazio di input
+        Più formalmente, dato $S \subset \calX$, dove $\calX$ è lo
+        spazio di input
         \[
             \forall S' \subseteq S \itc \exists h \in \calH \st \forall x \in S \itc h(x) = 1 \Leftrightarrow x \in S'
         \] 
@@ -439,34 +523,68 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
             VC(\calH) = max \mid S \mid \itc S\text{ è frammentato da }\calH,\text{ su }S \subseteq \calX
         \]
         
-        Da ciò si evince che la VC-dimension, sullo spazio delle ipotesi degli iperpiani in $\Rset^2$ è 3.
+        Da ciò si evince che la VC-dimension, sullo spazio delle
+        ipotesi degli iperpiani in $\Rset^2$ è 3.
     \end{proof}
 \end{exercise}
 
 \begin{exercise}(3)
-    Definizione di errore ideale ed empirico, e discutere in che modo possono essere messi in relazione tra loro.
+    Definizione di errore ideale ed empirico, e discutere in che modo
+    possono essere messi in relazione tra loro.
     
     \begin{proof}
-        Dato un training set composto da un certo numero di coppie $(\vec{x},y)$, queste sono generate secondo una funzione di probabilità $P(\vec{x},y) = P(\vec{x})P(y\mid\vec{x})$. Prendendo un ipotesi ``plausibile'' da $\calH$ come $\fund{g}{\calX}{\calY}$, l'errore ideale è l'errore compiuto su un certo input dalla funzione $g$ considerando la probabilità $P(\vec{x},y)$, mentre l'errore empirico è l'errore commesso da $g$ sul training set. Una buona ipotesi dovrebbe minimizzare l'errore ideale.
+        Dato un training set composto da un certo numero di coppie
+        $(\vec{x},y)$, queste sono generate secondo una funzione di
+        probabilità $P(\vec{x},y) =
+        P(\vec{x})P(y\mid\vec{x})$. Prendendo un ipotesi
+        ``plausibile'' da $\calH$ come $\fund{g}{\calX}{\calY}$,
+        l'errore ideale è l'errore compiuto su un certo input dalla
+        funzione $g$ considerando la probabilità $P(\vec{x},y)$,
+        mentre l'errore empirico è l'errore commesso da $g$ sul
+        training set. Una buona ipotesi dovrebbe minimizzare l'errore
+        ideale.
     \end{proof}
 \end{exercise}
 
 \begin{exercise}{(4)}
-    Spiegare le strategie di scelta dell’attributo ottimo negli alberi di decisione. 
+    Spiegare le strategie di scelta dell’attributo ottimo negli alberi
+    di decisione.
     
     \begin{proof}
-        La costruzione dell'albero è la fase più importante per gli alberi di decisione. Una buona costruzione dell'albero può sicuramente migliorare le performance e la reazione dell'albero ad input sconosciuti, e l'algoritmo ID3 rappresenta uno dei modi per creare gli alberi dai dati a dispoziione.
+        La costruzione dell'albero è la fase più importante per gli
+        alberi di decisione. Una buona costruzione dell'albero può
+        sicuramente migliorare le performance e la reazione
+        dell'albero ad input sconosciuti, e l'algoritmo ID3
+        rappresenta uno dei modi per creare gli alberi dai dati a
+        dispoziione.
         
-        L'algoritmo ID3 prende in input $S$ l'insieme degli esempi e $A$ l'insieme degli attributi, e si compone delle seguenti fasi:
+        L'algoritmo ID3 prende in input $S$ l'insieme degli esempi e
+        $A$ l'insieme degli attributi, e si compone delle seguenti
+        fasi:
         \begin{itemize}
             \item crea la radice T
-            \item se l'insieme $S$ ha elementi tutti della stessa classe restituisci T con etichetta S
-            \item se l'insieme $A$ è vuoto restituisci T con etichetta ricorrente maggiore in $S$
+            \item se l'insieme $S$ ha elementi tutti della stessa
+              classe restituisci T con etichetta S
+            \item se l'insieme $A$ è vuoto restituisci T con etichetta
+              ricorrente maggiore in $S$
             \item scegli l'attributo ottimo
-            \item partiziona $S$ in base ai possibili valori che possono assumere per l'attributo scelto e restituisci T con sottoalberi $ID3(S_{a=v_j}, A-a), \forall j$.
+            \item partiziona $S$ in base ai possibili valori che
+              possono assumere per l'attributo scelto e restituisci T
+              con sottoalberi $ID3(S_{a=v_j}, A-a), \forall j$.
         \end{itemize}
     
-        La scelta dell'attributo ottimo è effettuata secondo diversi criteri, ID3 si basa sul concetto di entropia e information gain. L'entropia è una misura del disordine, che applicata all'insieme $S$ ci permette di dire se il numero di elementi contenuti in $S$ è più o meno classificato correttamente. Un'altra entropia (vicina ad 1) indica che $S$ contiene circa lo stesso numero di elementi per ogni classe. L'attributo che genera questa entropia è quindi un buon candidato per essere scelto e per pratizionare $S$. ID3 si basa anche sull'information gain, che, tramite l'entropia, ci permette di capire quale attributo scegliere in base al guadagno di informazione.
+        La scelta dell'attributo ottimo è effettuata secondo diversi
+        criteri, ID3 si basa sul concetto di entropia e information
+        gain. L'entropia è una misura del disordine, che applicata
+        all'insieme $S$ ci permette di dire se il numero di elementi
+        contenuti in $S$ è più o meno classificato
+        correttamente. Un'altra entropia (vicina ad 1) indica che $S$
+        contiene circa lo stesso numero di elementi per ogni
+        classe. L'attributo che genera questa entropia è quindi un
+        buon candidato per essere scelto e per pratizionare $S$. ID3
+        si basa anche sull'information gain, che, tramite l'entropia,
+        ci permette di capire quale attributo scegliere in base al
+        guadagno di informazione.
         
         In particolare, l'entropia è calcolata (su $n$ classi) come
         \[
@@ -477,7 +595,8 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
         \[
         G(S, a) = E(S) - X
         \]
-        con $X$ la media pesata sugli elementi di una certa classe dell'entropia di quella classe, ovvero 
+        con $X$ la media pesata sugli elementi di una certa classe
+        dell'entropia di quella classe, ovvero
         \[
             G(S,a) = E(S) - \sum_{v \in V}\frac{|S_{a=v}|}{|S|} E(S_{a=v})
         \]
@@ -488,26 +607,33 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
             \item gini index
             \item miscalssification.
         \end{itemize}
-        Che hanno delle curve più ripide rispetto all'entropia. Per esempio la curva della miscalssification è un ``triangolo''.
+        Che hanno delle curve più ripide rispetto all'entropia. Per
+        esempio la curva della miscalssification è un ``triangolo''.
     \end{proof}
 \end{exercise}
 
 \subsection{Esame del 10/06/2013}
 
 \begin{exercise}{(1)}
-    Presentare i criteri di valutazione che si possono utilizzare per misurare la bontà di un classficatore. Discuterne l'utilizzo.
+    Presentare i criteri di valutazione che si possono utilizzare per
+    misurare la bontà di un classficatore. Discuterne l'utilizzo.
 \end{exercise}
 
 \begin{exercise}{(2)}
-    Presentare e discutere i criteri esterni e interni presentati a lezione per valutare un sistema di clustering. 
+    Presentare e discutere i criteri esterni e interni presentati a
+    lezione per valutare un sistema di clustering.
 \end{exercise}
 
 \begin{exercise}{(3)}
-    Presentare i concetti matematici fondamentali per la definizione di una Support Vector Machine nel caso di dati non linearmente separabili. Discuterne pregi e difetti. 
+    Presentare i concetti matematici fondamentali per la definizione
+    di una Support Vector Machine nel caso di dati non linearmente
+    separabili. Discuterne pregi e difetti.
 \end{exercise}
 
 \begin{exercise}{(4)}
-    Discutere come la teoria delle probabilità, e in particolare l'approccio bayesiano, possa essere utilizzata nell'ambito dell'Apprendimento Automatico.
+    Discutere come la teoria delle probabilità, e in particolare
+    l'approccio bayesiano, possa essere utilizzata nell'ambito
+    dell'Apprendimento Automatico.
 \end{exercise}
 
 % *********************
@@ -520,8 +646,9 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
 \begin{exercise}
     Solve the follogin exercises on high-order functions. \todo{Translate}
     \begin{itemize}
-        \item write a term that represent an high-order function (i.e., takes another function as input). Scrivere inoltre un
-        programma che usa una funzione higher.
+        \item write a term that represent an high-order function
+          (i.e., takes another function as input). Scrivere inoltre un
+          programma che usa una funzione higher.
         \item Scrivere una funzione che restituisce una funzione.
     \end{itemize}
 
@@ -548,7 +675,8 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
 \subsection{Esercizio 1.4}
 
 \begin{exercise}
-    Definire formalmente la nozione di sottotermini di un termine M del nostro linguaggio.
+    Definire formalmente la nozione di sottotermini di un termine M
+    del nostro linguaggio.
     \begin{proof}
         ??? \fixme{Finish this exercise}
     \end{proof}
@@ -582,7 +710,9 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
 \subsection{Esercizio Extra 2}
 
 \begin{exercise}
-    Dimostrare formalmente che la valutazione (esecuzione) di un programma è deterministica. Se $M \to M'$ e $M \to M''$ allora $M' = M''$.
+    Dimostrare formalmente che la valutazione (esecuzione) di un
+    programma è deterministica. Se $M \to M'$ e $M \to M''$ allora $M'
+    = M''$.
 
     \begin{proof}
         Si enuncia prima, in modo formale, la proposizione.
@@ -676,7 +806,8 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
 \subsection{Exercise 3.3}
 
 \begin{exercise}
-    Is $\Gamma \vdash x\ x : \tT$ derivable? If yes find a derivation for some $\Gamma, \tT$, otherwise prove that is not derivable.
+    Is $\Gamma \vdash x\ x : \tT$ derivable? If yes find a derivation
+    for some $\Gamma, \tT$, otherwise prove that is not derivable.
 
     \begin{proof}
         We can construct the proof tree.
@@ -700,7 +831,8 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
                 \Gamma \vdash x\ x : \tT
             \endprooftree
         \end{align*}
-        We obtain a $\Gamma$ in which $x$ should be two different things for each $T$, thus, the judgment is not derivable.
+        We obtain a $\Gamma$ in which $x$ should be two different
+        things for each $T$, thus, the judgment is not derivable.
     \end{proof}
 \end{exercise}
 
@@ -708,7 +840,8 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
 
 \begin{lemma}
     \label{atpl_ex_3_8_lemma}
-    Given a context $\Gamma$, if a term has a type in $\Gamma$ then it's type is unique and it's derivation is unique.
+    Given a context $\Gamma$, if a term has a type in $\Gamma$ then
+    it's type is unique and it's derivation is unique.
 \end{lemma}
 
 \begin{exercise}
@@ -736,10 +869,19 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
         By structural induction on $M$.
 
         \begin{itemize}
-            \item Case $M = \true$. $M$ is derivable using $\mathrm{T-TRUE}$ rule. Then we know that $\FV(M) = \FV(true) = \emptyset$ by definition and $\emptyset \subseteq \dom(\Gamma)$, thus $\FV(M) \subseteq \dom(\Gamma)$.
-            \item Case $M = \false$ and $M=n$ are identical to case $M = \true$.
-            \item Case $M = x$. $M$ is derivable using $\mathrm{T-VAR}$ and the rule is applicable only if $x \in \Gamma$. Then we know $\FV(M) = \FV(x) = \{x\}$. Thus, $\FV(M) = \FV(x) \subseteq \dom(\Gamma)$.
-            \item Case $M = M_1 + M_2$. $M$ is derivable by $\mathrm{T-SUM}$.
+            \item Case $M = \true$. $M$ is derivable using
+              $\mathrm{T-TRUE}$ rule. Then we know that $\FV(M) =
+              \FV(true) = \emptyset$ by definition and $\emptyset
+              \subseteq \dom(\Gamma)$, thus $\FV(M) \subseteq
+              \dom(\Gamma)$.
+            \item Case $M = \false$ and $M=n$ are identical to case $M
+              = \true$.
+            \item Case $M = x$. $M$ is derivable using
+              $\mathrm{T-VAR}$ and the rule is applicable only if $x
+              \in \Gamma$. Then we know $\FV(M) = \FV(x) =
+              \{x\}$. Thus, $\FV(M) = \FV(x) \subseteq \dom(\Gamma)$.
+            \item Case $M = M_1 + M_2$. $M$ is derivable by
+              $\mathrm{T-SUM}$.
             \[
                 \rulename{T-SUM}
                 \prooftree
@@ -760,8 +902,10 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
             \[
                 \FV(M_1) \cup \FV(M_2) \in \Gamma
             \]
-            \item Case $M = \condif{M_1}{M_2}{M_3}$ and $M = M_1 M_2$. Can be proved as done in $M = M_1 + M_2$ case.
-            \item Case $M = fx:\tT_1.M:\tT_1 \to \tT_2$. $M$ is derivable using $\mathrm{T-FUN}$
+            \item Case $M = \condif{M_1}{M_2}{M_3}$ and $M = M_1
+              M_2$. Can be proved as done in $M = M_1 + M_2$ case.
+            \item Case $M = fx:\tT_1.M:\tT_1 \to \tT_2$. $M$ is
+              derivable using $\mathrm{T-FUN}$
             \[
                 \rulename{T-FUNC}
                 \prooftree
@@ -770,7 +914,11 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
                     \Gamma \vdash f x:\tT_1 . M:\tT_1 \to \tT_2
                 \endprooftree
             \]
-            We know that $\FV(M) = \FV(fx:\tT_1.M:\tT_1 \to \tT_2) = \FV(M) \setminus \{x\}$. Let $\Gamma' = \Gamma, x$. By the inductive hypothesis we know that $\FV(M) \subseteq \Gamma = \Gamma' \setminus \{x\}$, thus $\FV(M) \subseteq \dom(\Gamma')$.
+            We know that $\FV(M) = \FV(fx:\tT_1.M:\tT_1 \to \tT_2) =
+            \FV(M) \setminus \{x\}$. Let $\Gamma' = \Gamma, x$. By the
+            inductive hypothesis we know that $\FV(M) \subseteq \Gamma
+            = \Gamma' \setminus \{x\}$, thus $\FV(M) \subseteq
+            \dom(\Gamma')$.
 
         \end{itemize}
     \end{proof}
@@ -789,13 +937,16 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
             (\Gamma \vdash M : T_1 \land \Gamma \vdash M : T_2 \Rightarrow T_1 = T_2) \\
             \land (??)
         \end{align*}
-        From this definition we can prove the theorem using two sub-lemmas: Lemma \ref{atpl_ex_type_uniqueness_lemma1} and \ref{atpl_ex_type_uniqueness_lemma2}.
+        From this definition we can prove the theorem using two
+        sub-lemmas: Lemma \ref{atpl_ex_type_uniqueness_lemma1} and
+        \ref{atpl_ex_type_uniqueness_lemma2}.
     \end{proof}
 \end{exercise}
 
 \begin{theorem}
     \label{th_type_uniqueness}
-    Given a context $\Gamma$, if a term has a type in $\Gamma$ then it's type is unique and it's derivation is unique.
+    Given a context $\Gamma$, if a term has a type in $\Gamma$ then
+    it's type is unique and it's derivation is unique.
 \end{theorem}
 
 \begin{lemma}
@@ -812,11 +963,15 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
         \[
             \Gamma \vdash \true : \tT_1 \land \Gamma \vdash \true : \tT_2
         \]
-        and by the $\mathrm{T-TRUE}$ rule we know that $M$ is derivable in $\Gamma$. By the inversion lemma, instead, we know that $\tT_1 = \Bool$ and $\tT_2 = \Bool$, so the lemma holds.
+        and by the $\mathrm{T-TRUE}$ rule we know that $M$ is
+        derivable in $\Gamma$. By the inversion lemma, instead, we
+        know that $\tT_1 = \Bool$ and $\tT_2 = \Bool$, so the lemma
+        holds.
 
         Case $M = \false$. Identical to the one above.
 
-        Case $M = n$. Identical to the two above, using the $\mathrm{T-NAT}$ rule.
+        Case $M = n$. Identical to the two above, using the
+        $\mathrm{T-NAT}$ rule.
 
         Case $M = M_1 + M_2$. In this case we obtain
         \[
@@ -842,8 +997,12 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
                 \Gamma \vdash M_1 + M_2 : \tT_2
             \endprooftree
         \]
-        Then, by the inversion lemma we note that the type of $M_1 + M_2$, $M_1$, $M_2$ is $\Nat$. Now we know that the types on the last level of the tree match and we can apply the inductive hypothesis, that holds on the sub-expression, so the lemma holds.
-        \fixme {Riscrivere questa frase in modo più formale (meno scritte, più formule).}
+        Then, by the inversion lemma we note that the type of $M_1 +
+        M_2$, $M_1$, $M_2$ is $\Nat$. Now we know that the types on
+        the last level of the tree match and we can apply the
+        inductive hypothesis, that holds on the sub-expression, so the
+        lemma holds.  \fixme {Riscrivere questa frase in modo più
+          formale (meno scritte, più formule).}
 
         Case $M = \condif{M_1}{M_2}{M_3}$, $M = \fnfun{x}{M_1}$, $\fnapp{M_1}{M_2}$ are left as exercises to the reader.
     \end{proof}
@@ -856,25 +1015,34 @@ Using algorithm \emph{ID3} build the decision trees for logical AND, OR and XOR.
 
 \subsection{Algorithm} 
 
-An algorithm is a procedure made by a set of simple steps that allows to obtain a result (i.e., transform some input in some other output).
+An algorithm is a procedure made by a set of simple steps that allows
+to obtain a result (i.e., transform some input in some other output).
 
 \subsection{Mathematical Notation}
 
 \begin{itemize}
-    \item \textbf{Cartesian} Given $A, B$ sets, $A \times B = \{ (a,b) \mid a \in A, b \in B\}$.
-    \item \textbf{Relation} Given $A, B$ sets, $r \subseteq A \times B$ is a relation.
-    \item \textbf{Function} $\fund{f}{A}{B}$ is a particular type of relation that maps every element of $A$ with one and only one element of $B$.
-    \item \textbf{Domain} $\dom(f) = \{ a \in A \mid \exists b \in B \st f(a) = b \}$.
-    \item \textbf{Size} $|A| = |B|$ if exists $\fund{f}{A}{B}$ biunivoca\fixme{Translate}. 
+    \item \textbf{Cartesian} Given $A, B$ sets, $A \times B = \{ (a,b)
+      \mid a \in A, b \in B\}$.
+    \item \textbf{Relation} Given $A, B$ sets, $r \subseteq A \times
+      B$ is a relation.
+    \item \textbf{Function} $\fund{f}{A}{B}$ is a particular type of
+      relation that maps every element of $A$ with one and only one
+      element of $B$.
+    \item \textbf{Domain} $\dom(f) = \{ a \in A \mid \exists b \in B
+      \st f(a) = b \}$.
+    \item \textbf{Size} $|A| = |B|$ if exists $\fund{f}{A}{B}$
+      biunivoca\fixme{Translate}.
 \end{itemize}
 
 \subsection{Calculation Model}
 
 \begin{itemize}
     \item $\calA$, the algorithms class.
-    \item $\calF$, the set of unary functions $\fund{f}{\Nset}{\Nset}$.
-    \item $\forall A \in \calA \itc \fund{f_A}{\Nset}{\Nset}$ the calculated function.
-    \item Set of calculated functions by $A$ 
+    \item $\calF$, the set of unary functions
+      $\fund{f}{\Nset}{\Nset}$.
+    \item $\forall A \in \calA \itc \fund{f_A}{\Nset}{\Nset}$ the
+      calculated function.
+    \item Set of calculated functions by $A$
     \begin{align*}
         \calF_A &= \{ f \in \calF \mid \exists A \in \calA \st f = f_A \} \\ 
           &= \{ f_A \mid A \in \calA \} \\
@@ -884,7 +1052,9 @@ An algorithm is a procedure made by a set of simple steps that allows to obtain 
 
 \begin{lemma}{(Calculable functions are countable)}
     \begin{proof}
-        Let $I$ the set of instructions (finite by definition). $\calA = I \cup I \times I \cup I \times I \times \ldots$. So $\calA$ is an union of enumerable sets.
+        Let $I$ the set of instructions (finite by definition). $\calA
+        = I \cup I \times I \cup I \times I \times \ldots$. So $\calA$
+        is an union of enumerable sets.
         \[
           |\calA| = | \bigcup_{i \geq 1} I^i | \leq | \Nset |
         \]
@@ -898,7 +1068,8 @@ An algorithm is a procedure made by a set of simple steps that allows to obtain 
 
 \subsection{The  $\calR$ class}
 
-The $\calR$ class is the minimal class of functions that contains base functions
+The $\calR$ class is the minimal class of functions that contains base
+functions
 \begin{itemize}
     \item successor,
     \item zero,
@@ -914,14 +1085,21 @@ and closed by
 \section{Exercises from Notes}
 
 \begin{exercise}{(Exercise 1.1)}
-    Let $URM^-$ be the $URM$ machine without the $S(n)$ instruction, replaced by $P(n)$ that calculates $r_n \leftarrow r_n - 1$. What is the relation between $\calC$ and $\calC^-$?
+    Let $URM^-$ be the $URM$ machine without the $S(n)$ instruction,
+    replaced by $P(n)$ that calculates $r_n \leftarrow r_n - 1$. What
+    is the relation between $\calC$ and $\calC^-$?
     
     \begin{proof}
-        We need to prove that $\calC \subseteq \calC^-$ and $\calC^- \subseteq \calC$.
+        We need to prove that $\calC \subseteq \calC^-$ and $\calC^-
+        \subseteq \calC$.
         
-        Let's start from $\calC^- \subseteq \calC$. This is true because we can build an $URM$ program that calculates $n-1$.
+        Let's start from $\calC^- \subseteq \calC$. This is true
+        because we can build an $URM$ program that calculates $n-1$.
         
-        The case $\calC \subseteq \calC^-$ it's not true. By the Lemma \ref{comp_ex_1_1_lemma} we know that the content of a $URM^-$ machine register cannot be greater than $\max \{ \vec{x} \}$ and this does not allow us to calculate $S(n).$
+        The case $\calC \subseteq \calC^-$ it's not true. By the Lemma
+        \ref{comp_ex_1_1_lemma} we know that the content of a $URM^-$
+        machine register cannot be greater than $\max \{ \vec{x} \}$
+        and this does not allow us to calculate $S(n).$
     \end{proof}
 \end{exercise}
 
@@ -932,18 +1110,25 @@ and closed by
     \begin{proof}
         By induction on the length of program $h$.
         
-        \noindent Case $h = 0$. Trivially true because the content of the memory is \[ x_1\ x_2\ \ldots\ x_l\ 0\ 0\ \ldots \]
+        \noindent Case $h = 0$. Trivially true because the content of
+        the memory is \[ x_1\ x_2\ \ldots\ x_l\ 0\ 0\ \ldots \]
         
-        \noindent Case $h + 1$. The $i$-th instruction of a program can be either
+        \noindent Case $h + 1$. The $i$-th instruction of a program
+        can be either
         \begin{itemize}
-            \item $T(m,n)$, that is $r_n \leftarrow t_m$ and we have two cases
+            \item $T(m,n)$, that is $r_n \leftarrow t_m$ and we have
+              two cases
             \begin{itemize}
-                \item $m \leq \rho(P) \Rightarrow r_n \leq \max \{\vec{x}\}$.
+                \item $m \leq \rho(P) \Rightarrow r_n \leq \max
+                  \{\vec{x}\}$.
                 \item $m > \rho(P) \Rightarrow r_n = 0$.
             \end{itemize}
-            \item $P(n)$, then $r_n \leftarrow r_n - 1$ and this implies $r_n \leq \max \{\vec{x}\}$.
-            \item $Z(n)$, then $r_n \leftarrow 0$ and this implies $r_n \leq \max \{\vec{x}\}$.
-            \item $J(m,n,t)$, that does not modify the memory so we $r_n$ is left unchanged.
+            \item $P(n)$, then $r_n \leftarrow r_n - 1$ and this
+              implies $r_n \leq \max \{\vec{x}\}$.
+            \item $Z(n)$, then $r_n \leftarrow 0$ and this implies
+              $r_n \leq \max \{\vec{x}\}$.
+            \item $J(m,n,t)$, that does not modify the memory so we
+              $r_n$ is left unchanged.
         \end{itemize}
         So $\forall i \in N \itc r_i \leq \max \{ \vec{x} \}$.
     \end{proof}
@@ -995,23 +1180,31 @@ LOOP2: J(2,3;LOOP1)
 
 \begin{exercise}
     Let $URM^-$ be a $URM$-machine without the jump instruction.
-    Prove that $\calC^- \not\subseteq \calC$. (Note: for simplicity consider only unary functions, $f: \Nset \to \Nset$)
+    Prove that $\calC^- \not\subseteq \calC$. (Note: for simplicity
+    consider only unary functions, $f: \Nset \to \Nset$)
 
     \begin{proof}
-        Intuitively, a $URM^-$ program must stop in a finite number of steps $l(P)$ (i.e., the length of the program).
-        For this reason we can compute only functions like
+        Intuitively, a $URM^-$ program must stop in a finite number of
+        steps $l(P)$ (i.e., the length of the program).  For this
+        reason we can compute only functions like
         \[ f(x) = c \]
         or
         \[ f(x) = x + c \]
 
-        We need to prove that the output for an $URM^-$ program (i.e., the content of the first register) is in the desidered form.
-        However, we need to prove that all registers are in the desidered form.\footnote{If we prove the proposition proving the condition only for the first register, when treating the transfer instruction we cannot say anything on the content of other registers, for this we cannot end the proof.}
+        We need to prove that the output for an $URM^-$ program (i.e.,
+        the content of the first register) is in the desidered form.
+        However, we need to prove that all registers are in the
+        desidered form.\footnote{If we prove the proposition proving
+          the condition only for the first register, when treating the
+          transfer instruction we cannot say anything on the content
+          of other registers, for this we cannot end the proof.}
 
         So, we want to prove
         \[ r_i(x, j) = c \]
         or
         \[ r_i(x, j) = x + c \]
-        where $x$ is the input, $j$ is the number of steps (executed instructions) and $i$ is the index of a register.
+        where $x$ is the input, $j$ is the number of steps (executed
+        instructions) and $i$ is the index of a register.
 
         We can prove that by induction on $j$.
         \begin{itemize}
@@ -1023,15 +1216,20 @@ LOOP2: J(2,3;LOOP1)
 
             \item Inductive case. $j \to j + 1$.
 
-            We have three cases based on the type of the $j+1$-th instruction
+            We have three cases based on the type of the $j+1$-th
+            instruction
             \begin{itemize}
                 \item $Z(n)$. $r_n(x, j+1) = 0$, that is what we want.
-                \item $S(n)$. $r_n(x, j+1) = r_n(x, j) + 1$, that by inductive hypothesis and by sum on naturals holds.
-                \item $T(m, n)$. $r_n(x, j + 1) = r_m(x, j)$, that by inductive hypothesis holds.
+                \item $S(n)$. $r_n(x, j+1) = r_n(x, j) + 1$, that by
+                  inductive hypothesis and by sum on naturals holds.
+                \item $T(m, n)$. $r_n(x, j + 1) = r_m(x, j)$, that by
+                  inductive hypothesis holds.
             \end{itemize}
         \end{itemize}
 
-        We have proved that all registers of a $URM^-$ machine, for each program $P$, keeps the form $c$ or $x + c$. From this we can conclude that $\calC^- \not\subseteq \calC$.
+        We have proved that all registers of a $URM^-$ machine, for
+        each program $P$, keeps the form $c$ or $x + c$. From this we
+        can conclude that $\calC^- \not\subseteq \calC$.
     \end{proof}
 
 \end{exercise}
