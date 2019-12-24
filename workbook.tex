@@ -465,6 +465,28 @@ OR and XOR. This time only three examples are given.
 \end{proof}
 \end{exercise}
 
+\section{Preprocessing}
+
+Le feature si distinguono in 
+\begin{itemize}
+	\item feature categoriche (o simboliche)
+	\begin{itemize}
+		\item nominali (no ordine)
+		\item ordinali (ordne, no distanze)
+	\end{itemize}
+	\item feature quantitative (o numeriche)
+	\begin{itemize}
+		\item intervalli
+		\item ratio
+	\end{itemize}
+\end{itemize}
+
+\subsection{Codifica OneeHot}
+
+Vettore con tante componenti quante i possibili valori delle variabili.
+
+\subsection{title}
+
 \section{Esami passati}
 
 \subsection{Esame del 13/05/2013}
@@ -526,6 +548,10 @@ OR and XOR. This time only three examples are given.
         Da ciò si evince che la VC-dimension, sullo spazio delle
         ipotesi degli iperpiani in $\Rset^2$ è 3.
     \end{proof}
+\end{exercise}
+
+\begin{exercise}{(2, non fatto)}
+	Nel contesto dell'apprendimento dei concetti, definire il Version Space e spiegare come tale concetto è utilizzato nell'apprendimento.
 \end{exercise}
 
 \begin{exercise}(3)
@@ -617,6 +643,10 @@ OR and XOR. This time only three examples are given.
 \begin{exercise}{(1)}
     Presentare i criteri di valutazione che si possono utilizzare per
     misurare la bontà di un classficatore. Discuterne l'utilizzo.
+    
+    \begin{proof}
+    	...
+    \end{proof}
 \end{exercise}
 
 \begin{exercise}{(2)}
@@ -628,6 +658,54 @@ OR and XOR. This time only three examples are given.
     Presentare i concetti matematici fondamentali per la definizione
     di una Support Vector Machine nel caso di dati non linearmente
     separabili. Discuterne pregi e difetti.
+    
+    \begin{proof}
+    	Una SVM è uno strumento matematico che ci consente di separare linearmente dei dati. Nello spazio delle ipotesi degli iperpiani ci consente di trovare un iperpiano che, appunto, separa i dati.
+    	
+    	In particolare con una SVM è possibile porre il problema di modo che quello che venga risolto sia un problema di ottimizzazione con vincoli, tramite il quale riusciamo a trovare una soluzione ottima. Per fare questo, nello spazio delle ipotesi degli iperpiani, si introduce il concetto di distanza geometrica, ovvero dato un iperpiano $\vec{w} \cdot \vec{x} + b = 0$, la distanza di $\vec{x}$ dall'iperpiano è la misura algebrica 
+    	\[
+    		g(\vec{x}) = \vec{w} \cdot \vec{x} + b.
+    	\]
+    	Possiamo scrivere 
+    	\[
+    		\vec{x} = \vec{x_p} + r \frac{w}{|| w ||}
+    	\]
+    	dove $x_p$ è la proiezione del punto $\vec{x}$ sull'iperpiano, ed $r$ è la distanza algebrica desiderata dall'iperpiano.
+    	
+    	Il margine è quindi dato da 
+    	\[
+    		g(\vec{x}) = \vec{w} \cdot \vec{x} + b \quad\text{and}\quad \vec{x} = \vec{x_p} + r \frac{w}{|| w ||}
+    	\]
+    	da cui è facile vedere che per minimizzare l'errore bisogna massimizzare il margine tra i punti di classi differenti. Più è alto il margine tra le classi più sarà piccolo l'errore di classificazione.
+    	
+    	Possiamo osservare anche che la VC-dimension ottima per gli iperpiani 
+    	\[
+    		VC_{opt} \leq \min \{ \lceil \frac{R^2}{\rho^2} \rceil, m \} + 1
+   		\]
+   		dove $R$ è il diametro della più piccola palla che racchiude tutti i punti di input ed $m$ è dato da $\Rset^m$ (NB: iperpiani in $\Rset^m$ hanno $VC=m+1$).
+   		
+   		A questo punto il problema si è ridotto nel trovare il più piccolo $\vec{w}$ tale che i punti dell'input distino dall'iperpiano almeno 1, ovvero
+   		\[
+   			min_{\vec{w},b} \frac{1}{2} ||w||^2
+   		\]
+   		con vincoli
+   		\[
+   			\forall i \in 1..n, y_i(\vec{w} \cdot \vec{x_i} + b) \geq 1
+   		\]
+   		
+   		Se gli esempi non sono linearmente separabili esistono diversi modi di aggirare il problema.
+   		\begin{itemize}
+   			\item Aggiungere variabili \emph{slack} che aggiungono una certa tolleranza al vincolo di essere $\geq 1$. Inoltre è possibile penalizzere le slack variabile sommandole all'oggetto da minimizzare, ovvero
+   			\[
+   				min_{\vec{w},b} \frac{1}{2} ||w||^2 + C \sum_{i=1}^{n} \xi_i
+   			\]
+   			$C$ può essere usato per controllare l'overfitting: maggiore è il $C$, meno il comportamento reale dei dati conta, ovvero $||\vec{w}||$ ha meno rilevanza e i dati vengono fittati meglio; minore è il $C$ e più le slack non contano nella sommatoria, quindi si cerca di massimizzare il margine a discapito dell'errore nel training set.
+   			
+   			\item Possiamo mappare i dati di input in uno spazio delle feature (di dimensionalità maggiore) dove possibilmente i dati diventano linearmente separabili.
+   			E con il kernel trick non abbiamo bisogno di rappresentare effettivamente i vettori nello spazio delle feature.
+   			(aggiungere altro??)
+   		\end{itemize}
+    \end{proof}
 \end{exercise}
 
 \begin{exercise}{(4)}
