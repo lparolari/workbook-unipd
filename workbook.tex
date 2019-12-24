@@ -719,75 +719,68 @@ Vettore con tante componenti quante i possibili valori delle variabili.
 
 \section{Mini functional language}
 
-\subsection{Esercizio 1.1}
+\subsection{Exercise 1.1}
 
-\begin{exercise}
-    Solve the follogin exercises on high-order functions. \todo{Translate}
+\begin{exercise}{(Exercise 1.1 from course notes)}
+    Solve the following exercises on high-order functions.
     \begin{itemize}
-        \item write a term that represent an high-order function
-          (i.e., takes another function as input). Scrivere inoltre un
-          programma che usa una funzione higher.
-        \item Scrivere una funzione che restituisce una funzione.
+        \item Write a term that represent an high-order function
+          (i.e., takes another function as input). Write a program that uses an high-order function.
+        \item Write a function that returns a function.
     \end{itemize}
 
-\begin{proof}
-    Parte 1:
-    \begin{verbatim}
-    -- high order
-    fn x.x
-
-    -- apply func arg
-    --   Apply the function `func` to argument `arg`.
-    fn x. (fn y. (x y) 1) fn z. z+1
-    \end{verbatim}
-
-    Parte 2:
-    \begin{verbatim}
-    fn x.x fn y.y+1
-    \end{verbatim}
-
-\end{proof}
-
+	\begin{proof}
+	    Parte 1:
+	    \begin{verbatim}
+	    -- high order
+	    fn x.x
+	
+	    -- apply func arg
+	    --   Apply the function `func` to argument `arg`.
+	    fn x. (fn y. (x y) 1) fn z. z+1
+	    \end{verbatim}
+	
+	    Parte 2:
+	    \begin{verbatim}
+	    fn x.x fn y.y+1
+	    \end{verbatim}
+	\end{proof}
 \end{exercise}
 
-\subsection{Esercizio 1.4}
+\subsection{Exercise 1.4}
 
-\begin{exercise}
+\begin{exercise}{(Exercise 1.4 from course notes)}
     Definire formalmente la nozione di sottotermini di un termine M
     del nostro linguaggio.
     \begin{proof}
-        ??? \fixme{Finish this exercise}
+        \begin{equation}
+        	\begin{split}
+	        	st(x) &= \{ x \}\\
+	        	st(n) &= \{ n \}\\
+	        	st(\true) &= \{ \true \}\\
+	        	st(\false) &= \{ \false \}\\
+	        	st(M + N) &= \{ M \} \cup \{ N \} \cup st(M) \cup st(N)\\
+	        	st(\kw{if} M_1 \kw{then} M_2 \kw{else} M_3) &= \{ M_1 \} \cup \{ M_2 \} \cup \{ M_3 \} \cup st(M_1) \cup st(M_2) \cup st(M_3)\\
+	        	st(\fnfun{x}{M}) &= \{ x \} \cup \{ M \} \cup st(M)\\
+	        	st(\fnapp{M}{N}) &= \{ M \} \cup \{ N \} \cup st(M) \cup st(N)\\
+        	\end{split}
+        \end{equation}
     \end{proof}
 \end{exercise}
 
-\subsection{Esercizio Extra 1}
+\subsection{Exercise 1.6}
 
-\begin{exercise}
-    Definire la semantica dell'applicazione con \emph{call-by-name}.
-    \begin{proof}
-        \begin{equation}
-        \rulename{BETA.N}
-        \prooftree
-        \justifies
-        fn \ x .\ M\ N \to M \{ x := N \}
-        \endprooftree
-        \end{equation}
-
-        \begin{equation}
-        \rulename{APP.N}
-        \prooftree
-        M \to M'
-        \justifies
-        M \ N \to M' \ N
-        \endprooftree
-        \end{equation}
-         \fixme{Needs review}
-    \end{proof}
+\begin{exercise}{(Exercise 1.6 from course notes)}
+	La relazione di riduzione data definisce una strategia efficiente per la valutazione del termine if-then-else, che permette cioè di valutare unicamente il ramo scelto dalla valutazione della guardia booleana. Ridefinire la semantica operazionale del linguaggio in modo che adotti una strategia non efficiente per il costrutto if-then-else, valutando entambi i rami del costrutto condizionale.
+	
+	\begin{proof}
+		\'E sufficiente che nelle regole if-then-else vengano valutati entrambi i rami e successivamente la guardia. Se la guardia è true, possiamo quindi riscrivere tutto l'ite a $v_1$ altrimenti verrà riscritto in $v_2$.
+	\end{proof}
 \end{exercise}
 
-\subsection{Esercizio Extra 2}
+\subsection{Exercise 1.9}
 
-\begin{exercise}
+\begin{exercise}{(Exercise 1.9 from course notes)}
     Dimostrare formalmente che la valutazione (esecuzione) di un
     programma è deterministica. Se $M \to M'$ e $M \to M''$ allora $M'
     = M''$.
@@ -797,93 +790,180 @@ Vettore con tante componenti quante i possibili valori delle variabili.
         \[
         \forall M, M', M'' \in Term: M \to M' \land M \to M'' \Rightarrow M' = M''
         \]
-        Ciò viene mostrato per induzione sulla struttura di M.
-
-        \begin{itemize}
-            \item Caso base. Prendiamo in esame il caso $M = true$.
-
-            Applicando l'enunciato abbiamo
-            \[
-            true \not\to M' \land true \not\to M'' \Rightarrow M' = M''
-            \]
-            ma questo è banalmente vero, visto che $false \Rightarrow
-            true$ è $true$.
-
-            Gli altri casi sono analoghi.
-
-            \item Passo induttivo. Prendiamo in esame $M = N_1 + N_2$.
-
-            Applicando l'enunciato ottenuamo
-            \[
-            N_1 + N_2 \to N' \land N_1 + N_2 \to N'' \Rightarrow N' = N''
-            \]
-
-            Per ipotesi induttiva sappiamo che vale
-            \begin{equation*}
-            \begin{split}
-            N_1 \to N_1' \land N_1 \to N_1'' & \Rightarrow N_1' = N_1'' \\
-            N_2 \to N_2' \land N_2 \to N_2'' & \Rightarrow N_2' = N_2''
-            \end{split}
-            \end{equation*}
-            e quindi
-            \[
-            N' = N'' \Leftrightarrow N_1' + N_2' = N_1'' + N_2''
-            \]
-
-            A questo punto, sapendo che anche la somma è un'operazione
-            deterministica concludo che $M' = M''$.
-        \end{itemize}
+        
+       	Ciò viene mostrato per induzione sulla struttura di M.
+       	
+       	\begin{itemize}
+       		\item Caso base. Prendiamo in esame il caso $M = true$.
+       		
+       		Applicando l'enunciato abbiamo
+       		\[
+       		true \not\to M' \land true \not\to M'' \Rightarrow M' = M''
+       		\]
+       		ma questo è banalmente vero, visto che $false \Rightarrow
+       		true$ è $true$.
+       		
+       		Gli altri casi sono analoghi.
+       		
+       		\item Passo induttivo. Prendiamo in esame $M = N_1 + N_2$.
+       		
+       		Applicando l'enunciato ottenuamo
+       		\[
+       		N_1 + N_2 \to N' \land N_1 + N_2 \to N'' \Rightarrow N' = N''
+       		\]
+       		
+       		Per ipotesi induttiva sappiamo che vale
+       		\begin{equation*}
+       		\begin{split}
+       		N_1 \to N_1' \land N_1 \to N_1'' & \Rightarrow N_1' = N_1'' \\
+       		N_2 \to N_2' \land N_2 \to N_2'' & \Rightarrow N_2' = N_2''
+       		\end{split}
+       		\end{equation*}
+       		e quindi
+       		\[
+       		N' = N'' \Leftrightarrow N_1' + N_2' = N_1'' + N_2''
+       		\]
+       		
+       		A questo punto, sapendo che anche la somma è un'operazione
+       		deterministica concludo che $M' = M''$.
+       	\end{itemize}
     \end{proof}
 \end{exercise}
 
+\subsection{Exercise 1.10}
+
+\begin{exercise}{(Exercise 1.10 from course notes)}
+	Descrivere la valutazione del termine \[
+	((\fnfun{x}{3})\ (\fnfun{y}{y})) \quad 
+	((\fnfun{z}{\condif{z}{1}{0}})\ (\false))
+	\]
+	Modificare le regole di valutazione in modo tale che, mantenendo una strategia call-by-value, il termine
+	precedente evolva in un termine stuck in meno passi di riduzione.
+	
+	\begin{proof}
+		Applico le regole della semantica:
+		\begin{itemize}
+			\item applico APP-1
+			\item applico BETA
+		\end{itemize}
+		e ottengo \[ (\fnfun{x}{3})\ ((\fnfun{z}{...})\ (false)) \]
+		
+		Posso quindi applicare
+		\begin{itemize}
+			\item APP-2
+		\end{itemize}
+		e ottengo \[ (\fnfun{x}{3})\ (if\ false\ ...) \]
+		
+		Posso applicare
+		\begin{itemize}
+			\item APP-2
+			\item IF-FALSE
+		\end{itemize}
+		e ottengo \[ (\fnfun{x}{3})\ 0 \]
+		da cui, con BETA ottengo $3$.
+	\end{proof}
+\end{exercise}
+
+\subsection{Exercise 1.11}
+
+\begin{exercise}{(Exercise 1.11 from course notes)}
+	Scrivere le regole di valutazione della strategia call-by-name e valutare il termine precedente secondo questa strategia.
+	
+	\begin{proof}
+		\begin{equation}
+		\rulename{BETA.N}
+		\prooftree
+		\justifies
+		\fnapp{\fnfun{x}{M}}{N} \to M \{ x := N \}
+		\endprooftree
+		\end{equation}
+		
+		\begin{equation}
+		\rulename{APP.N}
+		\prooftree
+		M \to M'
+		\justifies
+		M \ N \to M' \ N
+		\endprooftree
+		\end{equation}
+	\end{proof}
+\end{exercise}
+
+\subsection{Exercise 1.12}
+
+\begin{exercise}{(Exercise 1.12 from course notes)}
+	 \todo{TODO}
+\end{exercise}
+
+\subsection{Exercise 1.13}
+
+\begin{exercise}{(Exercise 1.13 from course notes)}
+	\todo{TODO}
+\end{exercise}
+
+\subsection{Exercise 1.14}
+
+\begin{exercise}{(Exercise 1.14 from course notes)}
+	\todo{TODO}
+\end{exercise}
+
+\section{Simple types}
+
 \subsection{Exercise 3.2}
 
-\begin{exercise}
-    Find a context $\Gamma$ such that $\Gamma \vdash x\ y : \Bool$ is derivable.
+\begin{exercise}{(Exercise 3.2 from course notes)}
+    Find a context $\Gamma$ such that $\Gamma \vdash \fnapp{f}{\fnapp{x}{y}} : \Bool$ is derivable.
 
     \begin{proof}
-        The syntax is ambiguous. We can disambiguate in two ways: $f\ (x\ y)$ or $(f\ x)\ y$.
+    	Note that applications are right-associative, so this expression will be evaluated: $f\ (x\ y)$
 
-        Case $f\ (x\ y)$.
         \begin{align*}
             \prooftree
+              \text{(T-APP)}
+              \quad
               \prooftree
-                \nohyp
+                \text{(T-VAR)}
                 \justifies
                   \Gamma \vdash f : \tT \to \Bool
                 \using
                   f : \tT_1 \to \Bool \in \Gamma
               \endprooftree
               \qquad
-              \prooftree
-                \prooftree
-                  \nohyp
-                  \justifies
-                    \Gamma \vdash x : \tT_2 \to \tT_1
-                  \using
-                    x:\tT_1 \to \tT_1 \in \Gamma
-                \endprooftree
-                \qquad
-                \prooftree
-                  \nohyp
-                  \justifies
-                    \Gamma \vdash y : \tT_2
-                  \using
-                    y:\tT_2 \in \Gamma
-                \endprooftree
-                \justifies
-                  \Gamma \vdash (x\ y) : \tT_1
-              \endprooftree
+              X
               \justifies
                 \Gamma \vdash f\ (x\ y) : \Bool
             \endprooftree
+        \end{align*}
+        where
+        \begin{align*}
+        	X = \Bigg (
+        	\prooftree
+        	  \prooftree
+        	    \nohyp
+        	    \justifies
+        	      \Gamma \vdash x : \tT_2 \to \tT_1
+        	    \using
+        	      x:\tT_1 \to \tT_1 \in \Gamma
+        	  \endprooftree
+        	  \qquad
+        	  \prooftree
+        	    \nohyp
+        	    \justifies
+        	      \Gamma \vdash y : \tT_2
+        	    \using
+        	      y:\tT_2 \in \Gamma
+        	  \endprooftree
+        	  \justifies
+        	    \Gamma \vdash (x\ y) : \tT_1
+        	\endprooftree
+        	\Bigg )
         \end{align*}
     \end{proof}
 \end{exercise}
 
 \subsection{Exercise 3.3}
 
-\begin{exercise}
+\begin{exercise}{(Exercise 3.3 from course notes)}
     Is $\Gamma \vdash x\ x : \tT$ derivable? If yes find a derivation
     for some $\Gamma, \tT$, otherwise prove that is not derivable.
 
@@ -918,11 +998,11 @@ Vettore con tante componenti quante i possibili valori delle variabili.
 
 \begin{lemma}
     \label{atpl_ex_3_8_lemma}
-    Given a context $\Gamma$, if a term has a type in $\Gamma$ then
+    Given a context $\Gamma$, if a term is typed in $\Gamma$ then
     it's type is unique and it's derivation is unique.
 \end{lemma}
 
-\begin{exercise}
+\begin{exercise}(Exercise 3.8 from course notes)
     Formalize and prove the Lemma \ref{atpl_ex_3_8_lemma}.
 
     \begin{proof}
@@ -930,17 +1010,72 @@ Vettore con tante componenti quante i possibili valori delle variabili.
 
         \begin{equation*}
         \begin{split}
-        \forall \Gamma &\itc \forall T_1, T_2 \itc \Gamma \vdash M : \tT \Rightarrow \\
-        &\Gamma \vdash M:T_1 \land \Gamma \vdash M:T_2 \Rightarrow T_1 = T_2 \\
-        & ???
+        \forall M \itc \forall T_1, T_2 \itc & \\ 
+        & \Gamma \vdash M : \tT_1 \land \Gamma \vdash M : \tT_2 \Rightarrow T_1 = T_2
         \end{split}
         \end{equation*}
+        
+        ---
+        
+        \begin{proof}
+        	 \fixme{Rivedere questa dimostrazione, copiare dal foglio perché era stata fatta diversamente (con qualche errore)}
+        	By structural induction on $M$.
+        	
+        	Case $M = \true$. We obtain
+        	\[
+        	\Gamma \vdash \true : \tT_1 \land \Gamma \vdash \true : \tT_2
+        	\]
+        	and by the $\mathrm{T-TRUE}$ rule we know that $M$ is
+        	derivable in $\Gamma$. By the inversion lemma, instead, we
+        	know that $\tT_1 = \Bool$ and $\tT_2 = \Bool$, so the lemma
+        	holds.
+        	
+        	Case $M = \false$. Identical to the one above.
+        	
+        	Case $M = n$. Identical to the two above, using the
+        	$\mathrm{T-NAT}$ rule.
+        	
+        	Case $M = M_1 + M_2$. In this case we obtain
+        	\[
+        	\Gamma \vdash M_1 + M_2 : \tT_1 \land \Gamma \vdash M_1 + M_2 : \tT_2
+        	\]
+        	and we know that is derivable using the rule $\mathrm{T-SUM}$, so we have
+        	\[
+        	\prooftree
+        	\Gamma \vdash M_1 : \tT_1
+        	\qquad
+        	\Gamma \vdash M_2 : \tT_1
+        	\justifies
+        	\Gamma \vdash M_1 + M_2 : \tT_1
+        	\endprooftree
+        	\]
+        	and
+        	\[
+        	\prooftree
+        	\Gamma \vdash M_1 : \tT_2
+        	\qquad
+        	\Gamma \vdash M_2 : \tT_2
+        	\justifies
+        	\Gamma \vdash M_1 + M_2 : \tT_2
+        	\endprooftree
+        	\]
+        	Then, by the inversion lemma we note that the type of $M_1 +
+        	M_2$, $M_1$, $M_2$ is $\Nat$. Now we know that the types on
+        	the last level of the tree match and we can apply the
+        	inductive hypothesis, that holds on the sub-expression, so the
+        	lemma holds.  \fixme {Riscrivere questa frase in modo più
+        		formale (meno scritte, più formule).}
+        	
+        	Case $M = \condif{M_1}{M_2}{M_3}$, $M = \fnfun{x}{M_1}$, $\fnapp{M_1}{M_2}$ are left as exercises to the reader.
+        \end{proof}
     \end{proof}
 \end{exercise}
 
+
+
 \subsection{Exercise 3.14}
 
-\begin{exercise}
+\begin{exercise}{(Exercise 3.14 from notes)}
     Prove that if $\Gamma \vdash M: \tT$ is derivable then $\FV(M) \subseteq \dom(\Gamma)$.
 
     \begin{proof}
@@ -1002,89 +1137,101 @@ Vettore con tante componenti quante i possibili valori delle variabili.
     \end{proof}
 \end{exercise}
 
-\section{Types uniqueness}
- \fixme{Translate into english.}
+\subsection{Exercise 3.21}
 
-\begin{exercise}
-    Formalize and prove the Theorem \ref{th_type_uniqueness}
-
-    \begin{proof}
-        First of all we must formalize the theorem in order to prove it.
-        \begin{align*}
-            \forall \Gamma, \tT \itc \Gamma \vdash M : \tT \Rightarrow \\
-            (\Gamma \vdash M : T_1 \land \Gamma \vdash M : T_2 \Rightarrow T_1 = T_2) \\
-            \land (??)
-        \end{align*}
-        From this definition we can prove the theorem using two
-        sub-lemmas: Lemma \ref{atpl_ex_type_uniqueness_lemma1} and
-        \ref{atpl_ex_type_uniqueness_lemma2}.
-    \end{proof}
+\begin{exercise}{(Exercise 3.21 from course notes)}
+	Consider the following rule $\text{APP}'$ in replacement of $\text{APP}$. The Safety Theorem would be valid again?
+	
+	\[
+		\rulename{APP'}
+		\prooftree
+		    \Gamma \vdash M:T\to T \quad \Gamma \vdash N:T
+		  \justifies
+		    \Gamma \vdash \fnapp{M}{N} : T
+		\endprooftree
+	\]
+	
+	\begin{proof}
+		Yes, the theorem would be valid again because we force the function in term $M$ to be a subset of the all possible function that can be given in the old language.
+	\end{proof}
 \end{exercise}
 
-\begin{theorem}
-    \label{th_type_uniqueness}
-    Given a context $\Gamma$, if a term has a type in $\Gamma$ then
-    it's type is unique and it's derivation is unique.
-\end{theorem}
+\subsection{Exercise 3.22}
 
-\begin{lemma}
-    \label{atpl_ex_type_uniqueness_lemma1}
-    \begin{align*}
-        \forall \Gamma, \tT \itc \Gamma \vdash M : \tT \Rightarrow \\
-        \Gamma \vdash M : T_1 \land \Gamma \vdash M : T_2 \Rightarrow T_1 = T_2
-    \end{align*}
+\begin{exercise}{(Exercise 3.22 from course notes)}
+	Consider the following rules $\text{APP}'$ in replacement of $\text{APP}$ and $\text{FUN}'$ in replacement of $\text{FUN}$. The Safety Theorem would be valid again?
+	
+	\[
+		\rulename{APP'}
+		\prooftree
+		    \Gamma \vdash M:T\to T \quad \Gamma \vdash N:T
+		  \justifies
+		    \Gamma \vdash \fnapp{M}{N} : T
+		\endprooftree
+	\]
+	
+	\[
+		\rulename{FUN'}
+		\prooftree
+		    \Gamma,x:T_1 \vdash M:T
+		  \justifies
+		    \Gamma \vdash \fnfun{x:T_1}{M} : T \to T
+		\endprooftree
+	\]
+	
+	\begin{proof}
+		Yes, safety would be valid again because $\text{FUN}'$ exposes the type $T \to T$, while the parameter of the function could be a $T$ of every type. In this way we are limiting the user to use only a specific subset of all functions.
+	\end{proof}
+\end{exercise}
 
-    \begin{proof}
-        By structural induction on $M$.
+\subsection{Exercise 3.23}
 
-        Case $M = \true$. We obtain
-        \[
-            \Gamma \vdash \true : \tT_1 \land \Gamma \vdash \true : \tT_2
-        \]
-        and by the $\mathrm{T-TRUE}$ rule we know that $M$ is
-        derivable in $\Gamma$. By the inversion lemma, instead, we
-        know that $\tT_1 = \Bool$ and $\tT_2 = \Bool$, so the lemma
-        holds.
+\begin{exercise}{(Exercise 3.23 from course notes)}
+	Consider the following rules $\text{TRUE}'$ and $\text{FALSE}'$ added to the type system. The Safety Theorem would be valid again?
+	
+	\[
+		\rulename{TRUE'}
+		\prooftree
+		  \nohyp
+		  \justifies
+		    \Gamma \vdash \true : \Nat
+		\endprooftree
+	\]
+	
+	\[
+		\rulename{FALSE'}
+		\prooftree
+		  \nohyp
+		  \justifies
+		    \Gamma \vdash \false : \Nat
+		\endprooftree
+	\]
+	
+	\begin{proof}
+		Yes, safety would be valid again. In this way we are adding non-determinism to the rules: in fact, now for $\true$ we can choose to have either the type $\Bool$ or $\Nat$. This allows to write more programs than before but we cannot get stuck computation because we can always use the right rule (for example in the guard for an if-then-else); and both $\Bool$ and $\Nat$ are values for the language.
+	\end{proof}
+\end{exercise}
 
-        Case $M = \false$. Identical to the one above.
+\subsection{Exercise 3.24}
 
-        Case $M = n$. Identical to the two above, using the
-        $\mathrm{T-NAT}$ rule.
+\begin{exercise}{(Exercise 3.23 from course notes)}
+	Consider the following rule $\text{IF}'$ added to the type system. Where the proof of Safety would fail?
+	
+	\[
+		\rulename{IF'}
+		\prooftree
+		  TODO
+		\justifies
+		  \Gamma \vdash TODO
+		\endprooftree
+	\]
+	
+	\begin{proof}
+		 \todo{Finire}	
+	\end{proof}
+\end{exercise}
 
-        Case $M = M_1 + M_2$. In this case we obtain
-        \[
-            \Gamma \vdash M_1 + M_2 : \tT_1 \land \Gamma \vdash M_1 + M_2 : \tT_2
-        \]
-        and we know that is derivable using the rule $\mathrm{T-SUM}$, so we have
-        \[
-            \prooftree
-                \Gamma \vdash M_1 : \tT_1
-                \qquad
-                \Gamma \vdash M_2 : \tT_1
-              \justifies
-                \Gamma \vdash M_1 + M_2 : \tT_1
-            \endprooftree
-        \]
-        and
-        \[
-            \prooftree
-                \Gamma \vdash M_1 : \tT_2
-                \qquad
-                \Gamma \vdash M_2 : \tT_2
-              \justifies
-                \Gamma \vdash M_1 + M_2 : \tT_2
-            \endprooftree
-        \]
-        Then, by the inversion lemma we note that the type of $M_1 +
-        M_2$, $M_1$, $M_2$ is $\Nat$. Now we know that the types on
-        the last level of the tree match and we can apply the
-        inductive hypothesis, that holds on the sub-expression, so the
-        lemma holds.  \fixme {Riscrivere questa frase in modo più
-          formale (meno scritte, più formule).}
 
-        Case $M = \condif{M_1}{M_2}{M_3}$, $M = \fnfun{x}{M_1}$, $\fnapp{M_1}{M_2}$ are left as exercises to the reader.
-    \end{proof}
-\end{lemma}
 
 % *********************
 \chapter{Computability}
