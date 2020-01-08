@@ -1231,6 +1231,78 @@ Vettore con tante componenti quante i possibili valori delle variabili.
 	\end{proof}
 \end{exercise}
 
+\section{Faetherweight Java}
+
+\subsection{Exercise 10.1}
+
+\begin{exercise}{(Exercise 10.1 from course notes)}
+	Note that FJ class table can contains mutual recursive class declaration. Give an example.
+\end{exercise}
+
+\begin{proof}
+	We can define a class table like the following
+\begin{verbatim}
+class C extends D {}
+class D extends C {}
+\end{verbatim}
+\end{proof}
+
+\subsection{Exercise 10.2}
+
+\begin{exercise}
+	Describe the semantics for
+	\begin{enumerate}
+		\item \texttt{new Pair(new A(), new B()).snd}
+		\item \texttt{(Pair) new Pair(new A(), new B())}
+		\item \texttt{new Pair(new A(), new B()).setfst(new B())}
+		\item \texttt{((Pair) (new Pair(new Pair(new A(), new B()), new A()).fst)).snd}
+		\item \texttt{(B) ((A) new C())}
+	\end{enumerate}
+\end{exercise}
+
+\begin{proof}
+	\begin{enumerate}
+		\item 
+		\prooftree
+		  \prooftree
+		    \nohyp
+		  \justifies
+		    fields(\texttt{Pair}) = \tilde{f} \quad \texttt{snd} \in \tilde{f}
+		  \endprooftree
+		\justifies
+		  \texttt{new Pair(new A(), new B()).snd} \to \texttt{new A()}
+		\endprooftree
+		
+		\item 
+		\prooftree
+		  \nohyp
+		\justifies
+		  \texttt{(Pair) new Pair(new A(), new B())} \to \texttt{(Pair) new Pair(new A(), new B())}
+		\endprooftree
+		
+	\end{enumerate}
+\end{proof}
+
+\subsection{Exercise 10.4}
+
+\begin{exercise}{(Exercise 10.4 from course notes)}
+	Why there is a type rule for the upcast and downcast, while in the semantics there is only the upcast rule?
+\end{exercise}
+
+\begin{proof}
+	The downcast in practise is not feasible. Suppose $C$, $D$ two classes where $C <: D$. The class $C$ usually have some methods or fields that $D$ does not have. In order to downcast $D$ to $C$ we should guess values for the fields in $C$, but this is illogical. The downcast is managed only with the static type, i.e. with the type system, and this does not requires a rule in the semantics. 
+\end{proof}
+
+\subsection{Exercise 10.5}
+
+\begin{exercise}{(Exercise 10.5 from course notes)}
+	Does it makes sense to add the subtyping rules for arrow types in FJ?
+\end{exercise}
+
+\begin{proof}
+	I think not. The arrow types are useful for using functions as values in our programs, i.e. passing them to other functions. In FJ there are no functions, but methods. Those are invoked on objects, so, in order to it work, methods need a context (the invocation object). The arrow type hide this context and make this machinery unfeasible.
+\end{proof}
+
 
 
 % *********************
