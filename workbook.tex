@@ -645,7 +645,13 @@ Vettore con tante componenti quante i possibili valori delle variabili.
     misurare la bontà di un classficatore. Discuterne l'utilizzo.
     
     \begin{proof}
-    	...
+    	La valutazione di un classificatore teoricamente è motivata dalla decomposizione bias-varianza: $E [y - g(\vec{x})] = noise^2 + bias^2 + variance$, dove è possibile intervenire sul modello per modificare bias o varianza.
+    	
+    	Per fare ciò si utilizzano tecniche come l'hold out. L'hold out permette di selezionare una parte del dataset $Tr - Va$ come la parte di training, su cui il classificatore viene allenato e un'altra parte $Va$ su cui il classificatore viene validato.
+    	
+    	K-fold Cross Validation è un'altra tecnica in cui il dataset viene suddiviso in $k$ sottoinsiemi tutti uguali, e a turno si sceglie il $k$-esimo come Va, mentre i restanti vengono utilizzati come training. Il classificatore viene allenato e valutato $k$ volte scegliendo di volta in volta un sottoinsieme di $Tr$ diverso.
+    	
+    	Altre tecniche per la valutazione del classificatore sono la tabella di contingenza e le misure di precision, recall, accuracy e F1 measure. $F_1 = 2 \frac{\pi \rho}{\pi + \rho}$
     \end{proof}
 \end{exercise}
 
@@ -653,6 +659,27 @@ Vettore con tante componenti quante i possibili valori delle variabili.
     Presentare e discutere i criteri esterni e interni presentati a
     lezione per valutare un sistema di clustering.
 \end{exercise}
+
+\begin{proof}
+	I criteri interni cercano di misurare la coesione di un cluster basandosi su una misura di similarità o sulla rappresentazione scelta.
+	
+	In particolare, i metodi di valutazione interni di un cluster sono
+	\begin{itemize}
+		\item similarità inner-class: elementi appartenenti allo stesso cluster dovrebbero avere similarità molto alta
+		\item similarità inter-class: elementi appartenenti a cluster diversi dobrebbero avere similarità bassa
+	\end{itemize}
+	Queste tecniche pur essendo piuttosto semplici introducono bias perché la misura di similarità in qualche modo presuppone una certa conoscenza sui dati.
+	Esempio misura della distanza: \[
+		V(\gamma, D) = \sum_{k = 1}^{K} \sum_{i, \gamma(d_i) = k} || d_i - c_k ||^2
+	\]
+	dove $c_k = \frac{1}{|c|} \sum_{x \in x} x$.
+	
+	I metodi di valutazione esterni invece richiedono un ground-truth, ovvero una base di conoscenza quantomeno parziale dove vengono forniti item e relativa classificazione corretta. Il problema rimane comunque unsupervised perché questa conoscenza non viene utilizzata in fase di allenamento. In particolare, i metodi esterni sono
+	\begin{itemize}
+		\item purity, misura piuttosto semplice che indica quanto il cluster è puro: rateo tra la classe dominante del cluster e la cardinalità del cluster.
+		\item rand index, costruisce una sorta di tabella di contingenza e misura il rapporto tra la somma dei TP e TN e la somma tra TP, TN, FP, FN.
+	\end{itemize}
+\end{proof}
 
 \begin{exercise}{(3)}
     Presentare i concetti matematici fondamentali per la definizione
@@ -713,6 +740,155 @@ Vettore con tante componenti quante i possibili valori delle variabili.
     l'approccio bayesiano, possa essere utilizzata nell'ambito
     dell'Apprendimento Automatico.
 \end{exercise}
+
+\begin{proof}
+	L'approccio bayesiano può essere usato con successo quando il numero di esempi è piuttosto alto. Il metodo bayesiano infatti sfrutta il teorema di bayes per stimare la probabilità delle ipotesi dati i dati. In particolare, si vuole selezionare l'ipotesi più probabile che si avvicina alla funzione target.
+	
+	Possiamo sfruttare il teorema di bayes 
+	\[
+		P(h|D) = \frac{P(D|h)P(h)}{P(D)}
+	\]
+	per selezione l'ipotesi $h_{MAP}$ (maximum a posteriori), ed il problema si trasforma in un problema di massimizzazione.
+	\[
+		h_{MAP} = \arg \max_{h \in \calH} P(h|D)
+	\]
+	
+	In realtà non abbiamo bisogno dell'intera $h$, ma avremmo bisogno di sapere la probabiltà di una certa classe.
+	\[
+		P(v_j|D) = \sum_{h_i \in \calH} P(v_j|h_i) P(h_i|D)
+	\]
+	Questa formula è però computazionalmente molto costosa: ricerca esauistivamente su tute le $h_i \in \calH$! Possiamo utilizzare un'approssimazione: il classificatore di Gibbs. Esso seleziona una $h$ a caso e effettua la classificazione di prima. E' dimostrato essere al massimo 2 volte peggio del classificatore ottimo.
+\end{proof}
+
+\subsection{Esame del 12/02/2019}
+
+\begin{exercise}{(Esercizio 1)}
+	Definire i concetti di spazio delle ipotesi (fornendo esempi) e di VC-dimension associata ad uno spazio delle ipotesi. Dare un esempio di calcolo di tale misura.
+\end{exercise}
+
+\begin{proof}
+	La VC-dimension è la misura della complessità dello spazio delle ipotesi. In un problema di learning infatti sono in gioco diverse ``forze'': abbiamo una funzione target $f$, la quale ha generato i dati; abbiamo lo spazio delle ipotesi entro cui ricercare una funzione $g \approx f$; e abbiamo un algoritmo di learning $A$ che definisce come esplorare $\calH$.
+	
+	Per definire la VC-dimension, va prima definita la nozione di shattering: un insieme $X \subseteq S$ è frammentato da $\calH$ se 
+	\[
+		\forall S' \subseteq S \itc \exists h \in \calH \st \forall x \in S' \itc h(x) = 1 \Leftrightarrow x \in S'
+	\] 
+	La VC-dimension è definita come 
+	\[
+		VC(\calH) = \max_{S \subseteq X} |S| \itc \text{S è frammentato da \calH}
+	\]
+	
+	Alcuni esempi di VC-dimension sono gli iperpiani in $\Rset^n$, dove la VC-dimension è $n+1$. Oppure tutti i rettangoli in $\Rset^2$, dove la VC-dimension è 4. Mentre la VC-dimension dei cerchi in $\Rset^2$ è 3.
+\end{proof}
+
+\begin{exercise}{(Esercizio 2)}
+	Motivare dal punto di vista teorico il metodo SVM
+\end{exercise}
+
+\begin{proof}
+	SVM è un classificatore di tipo lineare, in quanto è della forms $f_{\vec{w}} (\vec{x}) = w_0 + w_1 x_1 + ... + w_n x_n$. L'obbiettivo di un classificatore SVM è trovare un iperpiano che separi i dati, e per farlo trasforma questo task in un task di ottimizzazione: trovare un iperpiano tale che la distanza tra i punti di due classi diverse sia massima. [disegnino]
+	Se invece di massimizzare la distanza in questo modo la fissiamo a 1, allora è possibile scrivere ciò come un problema di massimizzazione: $\min_{\vec{w}} \frac{1}{2} ||\vec{w}||^2$ con vincoli $y_i (\vec{w} \cdot \vec{x}) \geq 1, \forall i$.
+	
+	A questo punto è poi possibile portare il problema nel duale e fare uso dei moltiplicatori di Lagrange per ottenere i vettori di supporto (vettori dove questi moltiplicatori non sono zero). Nel duale è anche possibile utilizzare i kernel, che consentono di svolgere operazioni come i prodotti scalari in altre dimensioni senza effettivamente rappresentare tutti i dati in quello spazio dimensionale (solitamente con più dimensioni rispetto a quello di partenza). E' poi possibile trasportare tutti i risultati, grazie ad una trasformazione non lineare nello spazio originale.
+\end{proof}
+
+\begin{exercise}{(Esercizio 3)}
+	Discutere il problema e l’implementazione del clustering gerarchico agglomerativo.
+\end{exercise}
+
+\begin{proof}
+	Il clustering gerarchico agglomerativo è una tecnica utilizzate per clusterizzare degli elementi. Il funzionamento di questa tecnica è piuttosto semplice, ma richiede una misura di similarità tra cluster, che in qualche modo aggiunge un bias sui dati.
+	
+	L'HAC funziona nel seguente modo:
+	\begin{itemize}
+		\item Si creano tanti cluster quanti sono i dati.
+		\item Per ogni coppia di cluster si applica la misura di similarità: se due cluster sono molto simili vengono fusi.
+		\item Superata una certa soglia di similarità dei merge l'algoritmo si interrompe.
+	\end{itemize}
+	Il problema di questo algoritmo è che considera l'operazione di merge come una funzione monotona. Nella costruzione del dendogramma infatti, il merge di due cluster non può mai abbassare la similarità tra i cluster.
+	
+	Esistono diverse misure di similarità tra cluster
+	\begin{itemize}
+		\item single link: misura la distanza basandosi sugli elementi più vicini di due cluster
+		\item complete link: misura la distanza basandosi sugli elementi più distanti tra due cluster
+		\item centroide: misura la distanza tra i centroidi del cluster
+		\item avg link: misura la distanza basandosi sulla media di coppie di esempi
+	\end{itemize}
+	La misura centroide però presenta un problema: non è monotona. Per ovviare a ciò, spesso si usa la avg link che evita il problema della chain come in single link o il problema degli outliers in complete link.
+\end{proof}
+ 
+\subsection{Esame del 21/01/2019}
+
+\begin{exercise}
+	Descrivere il funzionamento della model selection. Come si possono implementare?
+\end{exercise}
+
+\begin{proof}
+	Per i task di classificazione, la model selection entra in gioco nella fase della scelta del classificatore. Ogni classificatore infatti presenta caratterstiche diverse, e task differenti possono essere risolti in modo migliore con classificatori differenti. E' utile ricordare inoltre che la scelta del classificatore da usare è fondamentale ma non è l'unica operazione importante da effettuare durante la fase di training: un accurato preprocessing dei dati può cambiare sensibilmente le performance dei classificatori.
+	
+	La model selection può essere effettuata eseguendo il task di learning su vari classificatori e scegliendo quello che si comporta melgio, valutandone le performace. Per fare ciò, ci sono diverse tecniche.
+	
+	Model selection con hold-out. La tecnica di hold out ci permette di dividere il dataset in due parti: una verrà utilizzata per il training del classificatore, l'altra verrà utilizzata per validare il classificatore e valutarne la bontà.
+	
+	Model selection con k-fold cross validation. In questo caso il dataset viene diviso in $k$ parti con cardinalità uguale. Una di queste parti viene presa come validation set, le restanti $k-1$ sono utilizzate per il training dei classificatori. Applicando poi la cross validation, tutte le $k$ parti vengono usate a turno come validation set e le restanti per il training.
+	
+	Esistono poi delle misure per valutare la bontà del classificatore: accuracy, precision, recall, F1 measure... Dove F1 measure è $2 \frac{\pi  \rho}{\pi + \rho}$.
+\end{proof}
+
+\begin{exercise}
+	Descrivere le tecniche e i principi generali dell'apprendimento sui decision tree.
+\end{exercise}
+
+\begin{proof}
+	I decision tree, o alberi di decisione, sono dei classificatori basati su regole di tipo if-then-else. Sono piusttosto facili da costruire, resistenti a dati mancanti e usati in ambiti in cui l'interpretabilità del modello gioca un ruolo fondamentale.
+	
+	Un decision tree è costituito da un albero, dove sui nodi abbiamo dei testi sugli attributi mentre sugli archi abbiamo i possibili valori che un attributo può assumere. Nelle foglie è riportata una classificazione.
+	
+	E' importante ricordare che i decision tree possiedono alcune caratteristiche particolari: intanto, il loro spazio delle ipotesi sono tutti i possibili decision tree. Inoltre, su un decision tree, il cammino dalla radice alla classificazione $c_i$ è rappresentabile come una congiunzione di letterali. Invece, tutti i cammini dalla radice ad una classificazione $c_i$ è esprimibile come una disgiunzione di congiunzioni di letterali (DNF).
+	
+	Un normale task di apprendimento sui decision tree si distingue in due fasi: c'è la fase di creazione del decision tree, apprendendo la rappresentazione dai dati e la fase di utilizzo del decision tree dove si classificano gli esempi.
+	
+	Per costruire un decision tree viene impiegato un algoritmo che basandosi sui dati costruisce la rappresentazione. L'algoritmo è ID3, che prende in input l'insieme degli esempi $S$ e l'insieme degli attributi $A$.
+	\begin{itemize}
+		\item crea il nodo radice T
+		\item se in S sono tutti della stessa classe ritorna T con etichetta C
+		\item se $A=\emptyset$ ritorna $T$ con etichetta la maggioranza degli esempi in $S$.
+		\item altrimenti, scegli attributo ottimo in $A$
+		\item partizione $S$ secondo i possibili valori che l'attributo ottimo può assumere e ritorna T con sottofigli le chiamata a ID3 passando una delle partizioni a turno e $A - a$.
+	\end{itemize}
+
+	La scelta dell'attributo ottimo può essere fatta secondo diverse strategie:
+	\begin{itemize}
+		\item ad esempio, si può scegliere l'attributo che massimizza il guadagno informativo basato su entropia. L'entropia è una misuar del disordine e con due classi la formula è $E(S)) = p_c \log(p_c)$ con $p_c = \frac{|S_c|}{|S|}$. 
+		\item Oppure information gain basato su gini index
+		\item oppure IG basato su misclassification
+	\end{itemize}
+\end{proof}
+
+\begin{exercise}
+	Descrivere paradigmi, metodi e metriche di valutazione nel contesto dei sistemi di raccomandazione.
+\end{exercise}
+
+\begin{proof}
+	Da un punto di vista generale, i recommender system sono un particolare strumento che permette di consigliare un particolare item ad un particolare utente secondo certi criteri. Più in dettaglio, i rec sys si suddividono in due macro categorie: quelli personalizzati e quelli non personalizzati. I recsys personalizzati forniscono suggerimenti ad un utente in base ai suoi interesse e a quello che è pià rilevante per l'utente stesso. Quelli non personalizzati invece consigliano item sulla base di criteri globali.
+	
+	Prima di discutere delle metriche di valutazione dei recsys è giusto introdurre l'oggetto sul quale i recsys lavorano: la rating matrix. La rating matrix è una matrice molto sparsa che contiene i rating degli utenti per gli item. Questa matrice può contenere feedback espliciti (esempio numeri tra 1 e 5) oppure feedback impliciti. I dati mancanti sono assunti come negativi in quanto considerati non rilevanti per l'utente.
+	
+	La valutazione di un recsys è effettuata distinguendo come prima cosa la natura di un task: se si sta valutanto la predizione del rating verranno utilizzati indici come MAE, MSE, RMSE, mentre se si sta valutando la bontà di una top-N verranno utilizzati indici come AUC che misura per ogni coppia la proporzione d'oridne, AP che misura la precisione media della top-N, la DCG (Discounted Cumulative Gain) che misura la rilevanza pesata sulla posizione della top-N, MRR che invece misura la media del reciproco dei rank.
+	
+	Oltre all'accuracy è possibile utilizzare due altri indici che ci dicono la diversità degli oggetti proposti, basandosi sulla misura di similarità e la novely basandosi sull'inverso della popolarità.
+\end{proof}
+
+\subsection{Esempio Compitino 2012/13}
+
+\begin{exercise}
+	Nel contesto dell’apprendimento degli Alberi di Decisione, spiegare in che modo si possono trattare gli attributi a valori continui.  Dare un esempio concreto di trattamento di tre attributi a valori continui nel caso di sette esempi (3 esempi positivi e 4 negativi).
+\end{exercise}
+
+\begin{proof}
+	Un modo per trattare gli attributi continui è discretizzarli. Le regole degli alberi di decisione sono di tipo if-then, quindi un modo è creare uno pseudo attributo che discretizzi l'atributo originale. Per esempio se $a$ è su interi, $a' = \true \text{ se } a < c\text{, } \false \text{ altrimenti}$. Rimane comunque il problema della selezione di una costante $c$ per discretizzare l'attributo: questo è fattibile vedendo i possibili valori che l'attributo assume e scegliendo la soglia dove l'information gain è maggiore. In particolare, verranno analizzati i casi in cui la classe target cambia prendendo la partizione a destra e sinistra e valutando l'information gain.
+\end{proof}
+
 
 % *********************
 \chapter{Advanced Topics on Programming Languages}
