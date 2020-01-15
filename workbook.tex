@@ -1535,4 +1535,262 @@ LOOP2: J(2,3;LOOP1)
     Write the definition of URM-computability.
 \end{exercise}
 
+
+
+% *********************
+\chapter{Functional Language}
+
+\section{Past exams}
+
+\subsection{Exam 2018/06/05}
+
+\begin{exercise}{(Exercise 1)}
+	Define an instance of \texttt{Monad} for type \texttt{(->) a}
+\end{exercise}
+
+\begin{verbatim}
+instance Functor ((->) a) where
+    fmap :: (a -> b) -> f a -> f b
+    fmap :: (b -> c) -> (a -> b) -> (a -> c)
+    fmap = (.)
+
+instance Applicative ((->) a) where
+    -- pure :: a -> f a
+    -- pure :: b -> a -> b
+    pure y = \x -> y
+
+    -- <*> :: f (a -> b) -> f a -> f b
+    -- <*> :: (a -> b -> c) -> (a -> b) -> (a -> c)
+    f <*> g = \x -> (f x (g x))
+
+instance Monad ((->) a) where
+    -- pure :: a -> f a (generic)
+    -- pure :: b -> a -> b
+    pure y = \x -> y
+
+    -- >>= :: f a -> (a -> f b) -> f b (generic)
+    -- >>= :: (a -> b) -> (b -> a -> c) -> (a -> c)
+    mx >>= f = \x -> (f (mx x) x)
+\end{verbatim}
+
+\begin{exercise}{(Exercise 2)}
+	Workout the types of the variable in the four applicative laws recalled below
+	\begin{verbatim}
+		pure id <*> x = x                               % var: x
+		pure (g x) = pure g <*> pure x                  % var: x, g
+		x <*> pure y = pure (\g -> g y) <*> x           % var: x, y, g
+		x <*> (y <*> z) = (pure (.) <*> x <*> y) <*> z  % var: x, y, z
+	\end{verbatim}
+\end{exercise}
+
+\begin{verbatim}
+pure :: a -> f a
+<*> :: f (a -> b) -> f a -> f b
+id :: a -> a
+pure id <*> x :: f a
+\end{verbatim}
+
+\begin{exercise}{(Exercise 3)}
+	Given \texttt{Data Tree = Leaf Int | Node Tree Tree} and 
+	\begin{verbatim}
+		flatten :: Tree -> [Int]
+		flatten (Leaf x) = [x]
+		flatten (Node l r) = flatten l ++ flatten r
+	\end{verbatim}
+	explain why the use of \texttt{++} operator is inefficient.
+	
+	Then define \begin{verbatim}
+		flatten' t ns = flatten t ++ ns
+	\end{verbatim} 
+	inductively.  
+\end{exercise}
+
+\begin{proof}
+	The use \texttt{++} is inefficient because every time we want to append a list to another we have to traverse the first list and then append the second to the first. If we look at the append definition we can see this:
+	\begin{verbatim}
+	append [] ys = ys
+	append (x:xs) ys = x : append xs ys
+	\end{verbatim}
+	Multiple application of append makes the program extremely inefficient.
+	
+	In order to solve this we can think to an append function with a parameter that is an accumulator: we don't need to traverse the list again because the already appended list is memorized as a parameter.
+	However, we want to define this function inductively without rethinking a new function and verify again the correctness.
+	
+	Solved by induction on the first argument of \texttt{flatten'}:
+	\begin{itemize}
+		\item Base case: \texttt{t = Leaf x}
+		\begin{verbatim}
+			flatten' t ns = flatten' (Leaf x) ns
+			              = flatten (Leaf x) ++ ns
+			              = [x] ++ ns
+			              = (x:[]) ++ ns
+			              = x : [] ++ ns
+			              = x : ns
+		\end{verbatim}
+		and this is what we want because ns is by hypothesis a list
+		with a flattened tree and x is the flattened leaf.
+		
+		\item Inductive step: \texttt{t = Node l r}
+		\begin{verbatim}
+		flatten' t ns 
+		    = flatten' (Node l r) ns              [rewriting t]
+		    = flatten (Node l r) ++ ns            [applying flatten']
+		    = flatten l ++ flatten r ++ ns        [associativy on ++]
+		    = flatten l ++ (flatten r ++ ns)      [ind. hp for l]
+		    = flatten' l (flatten r ++ ns)        [ind. hp for r]
+		    = flatten' l (flatten' r ns)
+		\end{verbatim}
+	\end{itemize}
+\end{proof}
+
+\subsection{Exam 2018//01/28}
+
+\begin{exercise}{(Exercise 1)}
+	Define \texttt{reverse} using \texttt{foldr} e \texttt{foldl}. Write the definitions and types of the two functions.
+\end{exercise}
+
+\begin{proof}
+	We can write the following:
+	\begin{verbatim}
+		-- foldr :: (a -> b -> b) -> b -> [a] -> b
+		foldr f v [] = v
+		foldr f v x:xs = f x (foldr f v xs)
+		
+		-- foldl :: (b -> a -> b) -> b -> [a] -> b
+		foldl f v [] = v
+		foldl f v x:xs = foldl f (f v x) xs
+		
+		-- reverse :: [a] -> [a]
+		reverse [] = []
+		reverse x:xs = reverse xs ++ [x]
+		
+		-- reverse' :: [a] -> [a]
+		reverse' xs = foldr (\x y -> y ++ [x]) [] xs
+		
+		-- reverse'' :: [a] -> [a]
+		reverse'' xs = foldl (\v x -> x : v) [] xs
+	\end{verbatim}
+\end{proof}
+
+\begin{exercise}{(Exercise 2)}
+	Define the instance of Applicative class for partially applied function ((->) a).
+\end{exercise}
+
+\begin{proof}
+	We can write the following:
+	\begin{verbatim}
+		instance Applicative ((->) a) where
+			-- pure :: b -> (a -> b)
+			pure x = \y -> x
+			
+			-- <*> :: (a -> b -> c) -> (a -> b) -> (a -> c)
+			f <*> g = \x -> f x (g x)
+	\end{verbatim}
+\end{proof}
+
+\begin{exercise}{(Exercise 3)}
+	Use reasoning in order to show that 
+	\begin{verbatim}
+		add n (Succ m) = Succ (add n m)
+	\end{verbatim}
+	by induction on $n$.
+\end{exercise}
+
+\begin{proof}
+	First of all, we can write the definition of \texttt{add}.
+	\begin{verbatim}
+		add Zero n = n
+		add (Succ m) n = Succ (add m n)
+	\end{verbatim}
+	Now we can solve the equation by induction on $n$.
+	\begin{itemize}
+		\item Base case: \texttt{n = Zero}
+		\begin{verbatim}
+			add Zero (Succ m)
+			    = Succ m               [applying add]
+			    = Succ (add Zero m)    [unapplying add]
+		\end{verbatim}
+		
+		\item Inductive case: \texttt{n = Succ n}
+		\begin{verbatim}
+			add (Succ n) (Succ m)
+			    = Succ (add n (Succ m))    [applying add]
+			    = Succ (Succ (add n m))    [by ind. hp]
+		\end{verbatim}
+	\end{itemize}
+\end{proof}
+
+\begin{exercise}{(Exercise 4)}
+	Use the \texttt{Stack} machinery in order to write a function balance that checks whether parenthesis in a string are balanced or not. Write also the \texttt{Stack} definition with function \texttt{pop} and \texttt{push}.
+\end{exercise}
+
+\begin{verbatim}
+type State = String
+newtype Stack a = Stack (State -> [(a, State)])
+
+-- app :: Stack a -> State -> [(a, State)]
+app (Stack f) s = f s
+
+instance Functor Stack where
+    -- fmap :: (a -> b) -> Stack a -> Stack b
+    fmap f stk = Stack (\s -> let [(x, s')] = (app stk s) in [(f x , s')])
+
+instance Applicative Stack where
+    -- pure :: a -> Stack a
+    pure x = Stack (\s -> [(x, s)])
+
+    -- <*> :: Stack (a -> b) -> Stack a -> Stack b
+    fa <*> xa =
+        Stack (\s -> 
+            let [(f, s')] = app fa s
+                [(x, s'')] = app xa s'
+            in 
+                [(f x, s'')])
+
+instance Monad Stack where
+    -- >>= :: Stack a -> (a -> Stack b) -> Stack b
+    xm >>= f = Stack (\s ->
+        let [(x, s')] = app xm s
+            [(y, s'')] = app (f x) s'
+        in 
+            [(y, s'')])
+
+-- pop :: Stack Char
+pop = Stack (\state ->
+    case state of
+        [] -> []
+        s:sx -> [(s, sx)])
+
+-- push :: Char -> Stack ()
+push c = Stack (\s -> [((), c:s)])
+
+-- balance :: String -> Pila Bool
+balance [] = Stack (\s -> case s of
+    [] -> [(True, s)]
+    _ -> [(False, s)])
+balance ('(':xs) = do
+    push '('
+    balance xs
+balance (')':xs) = do
+    pop
+    balance xs
+balance (_:xs) = do
+    balance xs
+
+main = do
+    let [(r1,s1)] = app (balance "a (b) (c)") "" 
+    let [(r2,s2)] = app (balance "a ((b) + (c*2)") ""
+    putStrLn ("Test 1: " ++ show r1 ++ " should be True, " ++ s1)
+    putStrLn ("Test 2: " ++ show r2 ++ " should be False, " ++ s2)
+\end{verbatim}
+
+\begin{exercise}{(Exercise 5)}
+	Using list comprehension write function \texttt{fibs} that generate the sequence of fibonacci numbers.
+\end{exercise}
+
+\begin{verbatim}
+fibs' :: [Integer]
+fibs' = 0 : 1 : [x + y | (x,y) <- zip fibs' (tail fibs') ]
+\end{verbatim}
+
 \end{document}
